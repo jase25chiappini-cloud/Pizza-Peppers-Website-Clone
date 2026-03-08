@@ -3925,34 +3925,40 @@ const MealDealBuilderPanel = ({
           {extrasCents > 0 ? `  + extras: ${currency(extrasCents)}` : ""}
         </div>
 
-        <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.75rem" }}>
+        {/* Desktop footer actions: primary CTA full-width + sub actions below */}
+        <div className="pp-md-footerActions" style={{ marginTop: "0.75rem" }}>
           <button
             type="button"
-            className="simple-button"
-            disabled={activeStep <= 0}
-            onClick={() => setActiveStep((s) => Math.max(0, s - 1))}
-          >
-            Back
-          </button>
-
-          <button
-            type="button"
-            className="place-order-button"
+            className={[
+              "place-order-button",
+              "pp-md-addMealBtn",
+              isComplete ? "is-ready" : "",
+            ].join(" ")}
             disabled={!isComplete}
             onClick={commitMeal}
             style={{ opacity: isComplete ? 1 : 0.55 }}
           >
             {EM.CART} Add meal {"\u2014"} {currency(totalCents)}
           </button>
-          {isComplete && (
+
+          <div className="pp-md-footerSubRow">
             <button
               type="button"
-              className="simple-button"
+              className="simple-button pp-md-subBtn"
+              disabled={activeStep <= 0}
+              onClick={() => setActiveStep((s) => Math.max(0, s - 1))}
+            >
+              Back
+            </button>
+
+            <button
+              type="button"
+              className="simple-button pp-md-subBtn pp-md-subBtn--cancel"
               onClick={onCancel}
             >
               Cancel
             </button>
-          )}
+          </div>
         </div>
       </div>
 
