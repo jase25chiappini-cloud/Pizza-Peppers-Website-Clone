@@ -3702,52 +3702,46 @@ const MealDealBuilderPanel = ({
           {extrasCents > 0 ? `  + extras: ${currency(extrasCents)}` : ""}
         </div>
 
-        {!isComplete ? (
-          <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.75rem" }}>
+        <div style={{ marginTop: "0.75rem" }}>
+          <div className="pp-mdm-footerActions">
             <button
               type="button"
-              className="simple-button"
-              onClick={() => {
-                const nextEmpty = bundleItems.findIndex((x) => !x);
-                if (nextEmpty !== -1) {
-                  setActiveStep(nextEmpty);
-                  setPickerOpen(true);
-                }
-              }}
-            >
-              {EM.PLUS} Keep selecting
-            </button>
-
-            <button
-              type="button"
-              className="place-order-button"
-              disabled
-              style={{ opacity: 0.55 }}
+              className={[
+                "place-order-button",
+                "pp-mdm-addMealBtn",
+                isComplete ? "is-ready" : "",
+              ].join(" ")}
+              onClick={commitMeal}
+              disabled={!isComplete}
+              style={{ opacity: isComplete ? 1 : 0.55 }}
             >
               {EM.CART} Add meal {"\u2014"} {currency(totalCents)}
             </button>
-          </div>
-        ) : (
-          <div style={{ marginTop: "0.75rem" }}>
-            <div className="pp-mdm-footerActions pp-mdm-footerActions--complete">
+
+            <div className="pp-mdm-footerSubRow">
               <button
                 type="button"
-                className="place-order-button"
-                onClick={commitMeal}
+                className="simple-button pp-mdm-subBtn"
+                disabled={activeStep <= 0}
+                onClick={() => {
+                  const prev = Math.max(0, activeStep - 1);
+                  setActiveStep(prev);
+                  setPickerOpen(true);
+                }}
               >
-                {EM.CART} Add meal {"\u2014"} {currency(totalCents)}
+                Back
               </button>
 
               <button
                 type="button"
-                className="simple-button"
+                className="simple-button pp-mdm-subBtn pp-mdm-subBtn--cancel"
                 onClick={onCancel}
               >
                 Cancel
               </button>
             </div>
           </div>
-        )}
+        </div>
       </div>
 
       {overlays}
