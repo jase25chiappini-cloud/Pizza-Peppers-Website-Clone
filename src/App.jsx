@@ -730,6 +730,14 @@ const HalfAndHalfSelector = ({
     return lockedFiltered;
   }, [halfSizeOptions, defaultSizeRefs, lockedNorm, allowedHHSizeSet]);
 
+  const getLargeOption = React.useCallback(() => {
+    const opts = sizeSelectorOptions || [];
+    return (
+      opts.find((o) => isLargeToken(o.refValue || o.key || o.label)) ||
+      null
+    );
+  }, [sizeSelectorOptions, isLargeToken]);
+
   const hasDynamicSizeOptions = halfSizeOptions.length > 0;
 
   const halfAForGf = halfA || pendingHalfA;
@@ -1646,9 +1654,12 @@ const HalfAndHalfSelector = ({
             <div className="pp-hh-sizeLabel pp-hh-controlsCard__label">Choose size</div>
             <div className="pp-hh-sizeWrap pp-hh-sizePills" role="radiogroup" aria-label="Choose size">
               {sizeSelectorOptions.map((option) => {
-                const isActive = hasDynamicSizeOptions
-                  ? selectedSizeKey === option.key
-                  : sizeRef === option.refValue;
+                const optionToken = (option.refValue || option.key || option.label || "DEFAULT").toString();
+                const selectedToken = hasDynamicSizeOptions
+                  ? (selectedSizeKey || "").toString()
+                  : (sizeRef || "").toString();
+                const isActive =
+                  normalizeAddonSizeRef(selectedToken) === normalizeAddonSizeRef(optionToken);
 
                 const optionRefValue =
                   (option.refValue || option.key || option.label || "Default")
@@ -1702,8 +1713,11 @@ const HalfAndHalfSelector = ({
                     setIsHalfGlutenFree((prev) => {
                       const next = !prev;
                       if (next) {
-                        setSelectedSizeKey("LARGE");
-                        setSizeRef("LARGE");
+                        const largeOpt = getLargeOption();
+                        const key = largeOpt?.key ?? "LARGE";
+                        const ref = (largeOpt?.refValue || largeOpt?.key || "LARGE").toString().toUpperCase();
+                        setSelectedSizeKey(key);
+                        setSizeRef(ref);
                       }
                       return next;
                     });
