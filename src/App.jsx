@@ -192,14 +192,25 @@ const PROFILE_UPDATED_EVENT = "pp-profile-updated";
 // ----------------- FEATURE FLAGS (shared) -----------------
 const FEATURE_FLAGS_UPDATED_EVENT = "pp-featureflags-updated";
 const FEATURE_LOYALTY_ENABLED_KEY = "pp_feature_loyalty_enabled";
+const ORDER_TARGET_MODE_KEY = "pp_order_target_mode";
+const BROTHER_TEST_ORDER_INGEST_URL = "https://pizza-pos-dev.onrender.com/cashier";
 
 function readLoyaltyFeatureEnabled() {
   try {
     const v = window.localStorage.getItem(FEATURE_LOYALTY_ENABLED_KEY);
-    if (v == null) return true; // default ON
+    if (v == null) return true;
     return v === "1" || v === "true";
   } catch {
     return true;
+  }
+}
+
+function readOrderTargetMode() {
+  try {
+    const v = window.localStorage.getItem(ORDER_TARGET_MODE_KEY);
+    return v === "brother_test" ? "brother_test" : "default";
+  } catch {
+    return "default";
   }
 }
 
@@ -1336,7 +1347,7 @@ const HalfAndHalfSelector = ({
         }}
         title="Close"
       >
-        &times;
+        x
       </button>
 
       <div className="pp-hh-titleBar">
@@ -2554,45 +2565,42 @@ const MealDealBuilderPanel = ({
       // Half & Half special case
       if (isHalfHalfItem(chosen)) {
         setActiveStep(idx);
+        // CHANGE should go to selection mode (menu), not the HH detail panel
         setPickerOpen(false);
         setEditorItem(null);
+        setEditorForcedSizeRef(null);
+
+        // Reset halves so the user re-selects from the menu, but keep shared settings
         setHalfHalfSeed({
-          halfA: chosen.halfA || null,
-          halfB: chosen.halfB || null,
+          halfA: null,
+          halfB: null,
           sizeRef: (chosen.size?.ref || chosen.size?.id || chosen.size?.name || "LARGE")
             .toString()
             .toUpperCase(),
           isGlutenFree: !!chosen.isGlutenFree,
           qty: Number(chosen.qty || 1),
         });
-        setHhMealStage("review");
         setHhMealPickSide("A");
+        setHhMealStage("pick");
         openHalfHalfForView();
         return;
       }
 
-      // Find original product to preserve menu rules
-      const prod =
-        allProducts.find((p) => String(p?.id) === String(chosen.id)) ||
-        allProducts.find((p) => String(p?.name) === String(chosen.name));
-
       setActiveStep(idx);
-
-      if (prod) {
-        openEditorForProduct(prod, s, idx);
-      } else {
-        // Fallback: open picker if product not found
-        setPickerOpen(true);
-      }
+      // CHANGE should open the selection list (picker), not the detail card
+      setEditorItem(null);
+      setEditorForcedSizeRef(null);
+      setSearch("");
+      setPickerOpen(true);
     },
     [
       steps,
       bundleItems,
-      allProducts,
-      openEditorForProduct,
       setActiveStep,
       setPickerOpen,
       setEditorItem,
+      setEditorForcedSizeRef,
+      setSearch,
       setHalfHalfSeed,
       setHhMealStage,
       setHhMealPickSide,
@@ -3609,7 +3617,7 @@ const MealDealBuilderPanel = ({
           title="Exit meal deal"
           aria-label="Exit meal deal"
         >
-          <span aria-hidden="true" className="pp-mdm-closeIcon">&times;</span>
+          <span aria-hidden="true" className="pp-mdm-closeIcon">x</span>
           <span className="pp-mdm-closeText">Exit</span>
         </button>
       </header>
@@ -3794,7 +3802,7 @@ const MealDealBuilderPanel = ({
               title="Close"
               aria-label="Close"
             >
-              &times;
+              x
             </button>
           </div>
         </div>
@@ -4989,7 +4997,16 @@ function getImagePath(productOrName) {
 
 // ----------------- ORDER PIPELINE (send website orders to POS) -----------------
 
-const ORDER_INGEST_URL = String(import.meta.env.VITE_PP_ORDER_INGEST_URL || "").trim();
+const DEFAULT_ORDER_INGEST_URL = String(
+  import.meta.env.VITE_PP_ORDER_INGEST_URL || ""
+).trim();
+
+function resolveOrderIngestUrl() {
+  const mode = typeof window !== "undefined" ? readOrderTargetMode() : "default";
+  return mode === "brother_test"
+    ? BROTHER_TEST_ORDER_INGEST_URL
+    : DEFAULT_ORDER_INGEST_URL;
+}
 
 const PP_ORDER_OUTBOX_KEY = "pp_order_outbox_v1";
 
@@ -5001,11 +5018,15 @@ function _safeJsonParse(raw, fallback = null) {
   }
 }
 
-function enqueueOrder(orderPayload) {
+function enqueueOrder(orderPayload, targetUrl = resolveOrderIngestUrl()) {
   try {
     const cur = _safeJsonParse(localStorage.getItem(PP_ORDER_OUTBOX_KEY), []);
     const next = Array.isArray(cur) ? cur.slice() : [];
-    next.push({ ts: Date.now(), payload: orderPayload });
+    next.push({
+      ts: Date.now(),
+      payload: orderPayload,
+      targetUrl: String(targetUrl || "").trim(),
+    });
     localStorage.setItem(PP_ORDER_OUTBOX_KEY, JSON.stringify(next));
     return next.length;
   } catch (e) {
@@ -5055,11 +5076,14 @@ async function postJson(url, body, timeoutMs = 12000) {
   }
 }
 
-async function sendWebsiteOrderToPos(orderPayload) {
-  if (!ORDER_INGEST_URL) {
-    throw new Error("Missing VITE_PP_ORDER_INGEST_URL");
+async function sendWebsiteOrderToPos(orderPayload, targetUrl = resolveOrderIngestUrl()) {
+  const url = String(targetUrl || "").trim();
+
+  if (!url) {
+    throw new Error("Missing order ingest URL");
   }
-  return postJson(ORDER_INGEST_URL, orderPayload, 15000);
+
+  return postJson(url, orderPayload, 15000);
 }
 
 async function flushOrderOutboxOnce() {
@@ -5071,11 +5095,17 @@ async function flushOrderOutboxOnce() {
 
   for (const item of items) {
     if (!item || !item.payload) continue;
+
     try {
-      await sendWebsiteOrderToPos(item.payload);
+      const targetUrl = String(item?.targetUrl || resolveOrderIngestUrl() || "").trim();
+      if (!targetUrl) {
+        keep.push(item);
+        continue;
+      }
+
+      await postJson(targetUrl, item.payload, 15000);
       sent += 1;
     } catch (e) {
-      // keep anything that fails; we'll retry later
       keep.push(item);
     }
   }
@@ -8326,7 +8356,7 @@ function ItemDetailPanel({
         }}
         title="Close"
       >
-        &times;
+        x
       </button>
       <div className="pp-idp-top">
         <div
@@ -8751,7 +8781,7 @@ function ItemDetailPanel({
                 onClick={() => setShowExtrasModal(false)}
                 aria-label="Close"
               >
-                {"\u00d7"}
+                x
               </button>
             </div>
             <div className="pp-modal-body">
@@ -9326,10 +9356,11 @@ function ReviewOrderPanel({
     setPlacing(true);
 
     const payload = buildOrderPayload();
+    const targetUrl = resolveOrderIngestUrl();
 
     try {
-      const result = await sendWebsiteOrderToPos(payload);
-      console.log("[PP][Order] sent", { result });
+      const result = await sendWebsiteOrderToPos(payload, targetUrl);
+      console.log("[PP][Order] sent", { result, targetUrl });
 
       setPlaceOk("Order sent to POS.");
       try {
@@ -9344,10 +9375,9 @@ function ReviewOrderPanel({
       }, 600);
     } catch (e) {
       const msg = e?.message || String(e);
+      const queued = enqueueOrder(payload, targetUrl);
 
-      // If online send fails, queue it so it can retry on next load.
-      const queued = enqueueOrder(payload);
-      console.warn("[PP][Order] send failed (queued)", { msg, queued });
+      console.warn("[PP][Order] send failed (queued)", { msg, queued, targetUrl });
 
       setPlaceErr(
         `Could not reach the POS right now - saved locally and will retry. (${msg})`,
@@ -9572,7 +9602,7 @@ function ReviewOrderPanel({
                     }}
                   >
                     <span className="pp-removeItemX" aria-hidden="true">
-                      &times;
+                      x
                     </span>
                   </button>
                 </div>
@@ -9643,7 +9673,7 @@ function ReviewOrderPanel({
 
         {import.meta.env.DEV ? (
           <div style={{ marginTop: 8, fontSize: 12, opacity: 0.65 }}>
-            Order endpoint: {String(import.meta.env.VITE_PP_ORDER_INGEST_URL || "(not set)")}
+            Order endpoint: {String(resolveOrderIngestUrl() || "(not set)")}
           </div>
         ) : null}
 
@@ -10139,7 +10169,7 @@ function OrderInfoPanel({
         <div className="pp-modal" role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
           <div className="pp-modal-header">
             <div className="pp-modal-title">{mode} time</div>
-            <button type="button" className="pp-modal-close" aria-label="Close" title="Close" onClick={onClose} />
+            <button type="button" className="pp-modal-close" aria-label="Close" title="Close" onClick={onClose}>x</button>
           </div>
 
           <div className="pp-modal-body">
@@ -10890,7 +10920,7 @@ function OrderInfoPanel({
                     }}
                   >
                     <span className="pp-removeItemX" aria-hidden="true">
-                      &times;
+                      x
                     </span>
                   </button>
                 </div>
@@ -11426,7 +11456,7 @@ function LoginModal({ isOpen, tab = "providers", onClose }) {
             title="Close"
             onClick={handleClose}
           >
-            {"\u00d7"}
+            x
           </button>
         </div>
 
@@ -12646,7 +12676,7 @@ function ProfileModal({ onClose, isMapsLoaded }) {
             title="Close"
             onClick={() => onClose?.()}
           >
-            {"\u00d7"}
+            x
           </button>
         </div>
 
@@ -12945,7 +12975,7 @@ function EditIngredientsModal({ item, onSave, onCancel, initialRemoved = [] }) {
             onClick={onCancel}
             aria-label="Close"
           >
-            {"\u00d7"}
+            x
           </button>
         </div>
         <div className="pp-modal-body">
@@ -14172,7 +14202,9 @@ function LoyaltyModal({ isOpen, onClose }) {
             aria-label="Close"
             title="Close"
             onClick={handleClose}
-          />
+          >
+            x
+          </button>
         </div>
 
         <div className="pp-modal-body">
@@ -16316,7 +16348,7 @@ function AppLayout({ isMapsLoaded }) {
                 onClick={() => goToMenu()}
                 style={{ position: "absolute", top: "1rem", right: "1rem", zIndex: 5 }}
               >
-                &times;
+                x
               </button>
 
               <div className={mobileOrderPanelClassName}>{rightPanelBody}</div>

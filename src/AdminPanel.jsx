@@ -9,6 +9,9 @@ const STATUS_FILTERS = ["all", "active", "inactive"];
 
 const FEATURE_FLAGS_UPDATED_EVENT = "pp-featureflags-updated";
 const FEATURE_LOYALTY_ENABLED_KEY = "pp_feature_loyalty_enabled";
+const ORDER_TARGET_MODE_KEY = "pp_order_target_mode";
+const ORDER_TARGET_CHANGED_EVENT = "pp-order-target-changed";
+const BROTHER_TEST_ORDER_URL = "https://pizza-pos-dev.onrender.com/cashier";
 const ADMIN_THEME_KEY = "pp_admin_theme_v1";
 // Hard gate: only admins may view this page.
 const REQUIRED_ADMIN_ROLE = "admin";
@@ -119,6 +122,28 @@ function writeLoyaltyFlag(next) {
   } catch {}
 }
 
+function readOrderTargetMode() {
+  try {
+    const v = localStorage.getItem(ORDER_TARGET_MODE_KEY);
+    return v === "brother_test" ? "brother_test" : "default";
+  } catch {
+    return "default";
+  }
+}
+
+function writeOrderTargetMode(nextMode) {
+  const safe = nextMode === "brother_test" ? "brother_test" : "default";
+
+  try {
+    localStorage.setItem(ORDER_TARGET_MODE_KEY, safe);
+  } catch {}
+
+  try {
+    window.dispatchEvent(new Event(ORDER_TARGET_CHANGED_EVENT));
+    window.dispatchEvent(new Event(FEATURE_FLAGS_UPDATED_EVENT));
+  } catch {}
+}
+
 export default function AdminPanelPage() {
   const MENU_BASE = (import.meta.env.VITE_PP_MENU_BASE_URL || "").replace(/\/+$/, "");
   const RAW_API_BASE = (import.meta.env.VITE_PP_AUTH_BASE_URL || MENU_BASE || "").replace(
@@ -152,6 +177,7 @@ export default function AdminPanelPage() {
   const [bulkAction, setBulkAction] = useState("");
   const [bulkLoading, setBulkLoading] = useState(false);
   const [loyaltyEnabled, setLoyaltyEnabled] = useState(() => readLoyaltyFlag());
+  const [orderTargetMode, setOrderTargetMode] = useState(() => readOrderTargetMode());
   const [theme, setTheme] = useState(() => getInitialAdminTheme());
 
   const [createOpen, setCreateOpen] = useState(false);
@@ -604,6 +630,50 @@ export default function AdminPanelPage() {
                   >
                     {loyaltyEnabled ? "ON" : "OFF"}
                   </button>
+                </div>
+
+                <div className="admin-flag-row">
+                  <div>
+                    <div className="admin-flag-name">Website order target</div>
+                    <div className="admin-flag-sub">
+                      Choose where website checkout orders are posted from this site instance.
+                    </div>
+                    <div className="admin-flag-sub" style={{ marginTop: 6 }}>
+                      {orderTargetMode === "brother_test"
+                        ? `Current: Brother test POS (${BROTHER_TEST_ORDER_URL})`
+                        : "Current: Default POS endpoint (VITE_PP_ORDER_INGEST_URL)"}
+                    </div>
+                  </div>
+
+                  <div className="admin-chip-row">
+                    <button
+                      type="button"
+                      className={orderTargetMode === "default" ? "admin-chip is-active" : "admin-chip"}
+                      onClick={() => {
+                        setOrderTargetMode("default");
+                        writeOrderTargetMode("default");
+                      }}
+                      disabled={!canManageUsers}
+                      title={!canManageUsers ? "Admin only" : "Send website orders to the default POS"}
+                    >
+                      Default POS
+                    </button>
+
+                    <button
+                      type="button"
+                      className={
+                        orderTargetMode === "brother_test" ? "admin-chip is-active" : "admin-chip"
+                      }
+                      onClick={() => {
+                        setOrderTargetMode("brother_test");
+                        writeOrderTargetMode("brother_test");
+                      }}
+                      disabled={!canManageUsers}
+                      title={!canManageUsers ? "Admin only" : "Send website orders to brother's test POS"}
+                    >
+                      Brother test POS
+                    </button>
+                  </div>
                 </div>
               </div>
 

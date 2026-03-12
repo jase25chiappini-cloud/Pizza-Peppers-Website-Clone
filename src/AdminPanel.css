@@ -845,6 +845,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 14px;
+  flex-wrap: wrap;
   padding: 12px 14px;
   border: 1px solid rgba(148,163,184,0.16);
   border-radius: 14px;
@@ -871,4 +872,10 @@
   .admin-header-actions { width: 100%; justify-content: space-between; }
   .admin-form-grid { grid-template-columns: 1fr; }
   .admin-inline { flex-direction: column; align-items: stretch; }
+}
+
+@media (max-width: 680px) {
+  .admin-flag-row {
+    align-items: flex-start;
+  }
 }
