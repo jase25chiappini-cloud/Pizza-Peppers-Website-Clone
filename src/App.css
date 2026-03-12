@@ -4862,7 +4862,7 @@ button.pp-btn.pp-btn-subtle[aria-label="Close"]::after{
   top: 50%;
   width: var(--pp-xbar-len);
   height: var(--pp-xbar-thick);
-  background: var(--text-light);
+  background: rgb(220, 38, 38);
   border-radius: 999px;
   transform-origin: center;
 }
@@ -4887,8 +4887,8 @@ button.quantity-btn[title="Close"]:hover,
 button.pp-btn.pp-btn-subtle[aria-label="Close"]:hover{
   transform: translateY(-1px) scale(1.04);
   background: rgba(15,23,42,0.55);
-  border-color: rgba(190,242,100,0.55);
-  box-shadow: 0 0 0 3px rgba(190,242,100,0.14), 0 10px 30px rgba(0,0,0,0.35);
+  border-color: rgba(220,38,38,0.55);
+  box-shadow: 0 0 0 3px rgba(220,38,38,0.14), 0 10px 30px rgba(0,0,0,0.35);
   filter: brightness(1.03);
 }
 
@@ -16667,4 +16667,33 @@ Bigger tap targets and readable layout
     text-transform: uppercase !important;
     white-space: nowrap !important;
   }
+}
+
+/* === FINAL close icon colour override: make ALL X buttons red === */
+.pp-modal-close,
+button.quantity-btn[title="Close"],
+button.pp-btn.pp-btn-subtle[aria-label="Close"],
+button[title="Close"],
+.pp-login-close{
+  color: rgb(220, 38, 38) !important;
+}
+
+/* If the close icon is drawn with pseudo bars, force those bars red too */
+.pp-modal-close::before,
+.pp-modal-close::after,
+button.quantity-btn[title="Close"]::before,
+button.quantity-btn[title="Close"]::after,
+button.pp-btn.pp-btn-subtle[aria-label="Close"]::before,
+button.pp-btn.pp-btn-subtle[aria-label="Close"]::after,
+button[title="Close"]::before,
+button[title="Close"]::after,
+.pp-login-close::before,
+.pp-login-close::after{
+  background: rgb(220, 38, 38) !important;
+}
+
+/* Specific late override for the ItemDetailPanel close button */
+.detail-panel > button.quantity-btn[title="Close"]::before,
+.detail-panel > button.quantity-btn[title="Close"]::after{
+  background: rgb(220, 38, 38) !important;
 }
