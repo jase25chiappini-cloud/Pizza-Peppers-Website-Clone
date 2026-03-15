@@ -579,15 +579,33 @@ async function fetchOrderHistoryFromServer(limit = 20) {
   const token = readSessionToken();
   if (!token) return [];
 
-  const res = await fetch(`${AUTH_BASE}/me/orders?limit=${limit}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const url = `${AUTH_BASE}/me/orders?limit=${limit}`;
+  console.log("[PP][OrderHistory] GET", url);
 
-  const data = await readJsonSafeLocal(res);
-  if (!res.ok || !data?.ok || !Array.isArray(data?.orders)) return [];
-  return data.orders;
+  try {
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await readJsonSafeLocal(res);
+    if (!res.ok || !data?.ok || !Array.isArray(data?.orders)) {
+      console.warn("[PP][OrderHistory] bad response", {
+        status: res.status,
+        data,
+      });
+      return [];
+    }
+
+    return data.orders;
+  } catch (err) {
+    console.warn("[PP][OrderHistory] fetch failed", {
+      url,
+      message: err?.message || String(err),
+    });
+    throw err;
+  }
 }
 
 function extractOrderAgainCandidates(orders, currentMenuData) {

@@ -56,8 +56,35 @@ CORS(
     supports_credentials=False,
 )
 
+def _origin_is_allowed(origin):
+    if not origin:
+        return False
+
+    normalized = str(origin).strip().rstrip("/")
+    for allowed in ALLOWED_ORIGINS:
+        candidate = str(allowed).strip()
+        if not candidate:
+            continue
+
+        candidate = candidate.rstrip("/")
+        if candidate.startswith("^"):
+            try:
+                if re.match(candidate, normalized):
+                    return True
+            except re.error:
+                continue
+        elif candidate == normalized:
+            return True
+
+    return False
+
 @app.after_request
 def _cors_preflight_fix(resp):
+    origin = request.headers.get("Origin")
+    if origin and _origin_is_allowed(origin):
+        resp.headers.setdefault("Access-Control-Allow-Origin", origin)
+        resp.headers.setdefault("Vary", "Origin")
+
     # If browser preflight asked for headers, echo them back
     req_headers = request.headers.get("Access-Control-Request-Headers")
     if req_headers:
@@ -1109,12 +1136,7 @@ def api_images_file(filename: str):
 @app.after_request
 def add_cors_headers(resp):
     origin = request.headers.get("Origin")
-    allowed = [
-        o.strip()
-        for o in os.getenv("POS_ALLOWED_ORIGINS", "").split(",")
-        if o.strip()
-    ]
-    if origin and origin in allowed:
+    if origin and _origin_is_allowed(origin):
         resp.headers["Access-Control-Allow-Origin"] = origin
         resp.headers["Vary"] = "Origin"
     return resp
