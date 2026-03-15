@@ -13345,16 +13345,19 @@ function OrderHistoryModal({ onClose, onOrderAgain }) {
   );
 
   return (
-    <div className="pp-modal-backdrop" onClick={handleClose}>
+    <div
+      id="order-history-modal"
+      className="pp-modal-backdrop pp-orderHistoryOverlay"
+      onClick={handleClose}
+    >
       <div
-        className="pp-modal"
+        className="pp-modal pp-orderHistoryModal"
         role="dialog"
         aria-modal="true"
         aria-label="Order history"
         onClick={(e) => e.stopPropagation()}
-        style={{ maxWidth: "900px" }}
       >
-        <div className="pp-modal-header">
+        <div className="pp-modal-header pp-orderHistoryModal__header">
           <div className="pp-modal-title">Order history</div>
           <button
             type="button"
@@ -13367,7 +13370,7 @@ function OrderHistoryModal({ onClose, onOrderAgain }) {
           </button>
         </div>
 
-        <div className="pp-modal-body">
+        <div className="pp-modal-body pp-orderHistoryModal__body">
           {err ? (
             <div className="pp-warning" style={{ marginTop: 0, marginBottom: "0.85rem" }}>
               {err}
