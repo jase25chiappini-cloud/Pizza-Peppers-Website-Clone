@@ -323,6 +323,17 @@ class User(db.Model):
         return check_password_hash(self.reset_code_hash, code)
 
 
+class OrderHistory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False, index=True)
+    website_order_id = db.Column(db.String(128), nullable=False, unique=True, index=True)
+    fulfilment = db.Column(db.String(24), nullable=False, default="pickup")
+    payment_total_cents = db.Column(db.Integer, nullable=False, default=0)
+    status = db.Column(db.String(24), nullable=False, default="sent")
+    payload_json = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+
 def _ensure_profile_column():
     try:
         table = User.__tablename__
@@ -335,6 +346,13 @@ def _ensure_profile_column():
                 print("[db] added profile_json column")
     except Exception as e:
         print("[db] ensure profile column failed:", e)
+
+
+def _ensure_order_history_table():
+    try:
+        db.create_all()
+    except Exception as e:
+        print("[db] ensure order history table failed:", e)
 
 
 class AdminAudit(db.Model):
@@ -371,6 +389,7 @@ def should_bootstrap_admin(phone_raw: str, phone_normalized: str) -> bool:
 with app.app_context():
     if _ensure_db_ready():
         _ensure_profile_column()
+        _ensure_order_history_table()
 
 
 @app.post("/register")
@@ -589,6 +608,81 @@ def update_me():
     return jsonify({"ok": True, "user": {
         "id": u.id, "phone": u.phone, "displayName": u.display_name, "role": u.role
     }, "profile": profile})
+
+
+@app.get("/me/orders")
+@auth_required
+def my_orders():
+    u = request.pp_user
+    limit_raw = request.args.get("limit", "20")
+    try:
+        limit = max(1, min(100, int(limit_raw)))
+    except Exception:
+        limit = 20
+
+    rows = (
+        OrderHistory.query
+        .filter_by(user_id=u.id)
+        .order_by(OrderHistory.created_at.desc())
+        .limit(limit)
+        .all()
+    )
+
+    out = []
+    for row in rows:
+        payload = {}
+        try:
+            payload = json.loads(row.payload_json) if row.payload_json else {}
+        except Exception:
+            payload = {}
+
+        items = payload.get("items") if isinstance(payload, dict) else []
+        out.append({
+            "id": row.id,
+            "website_order_id": row.website_order_id,
+            "fulfilment": row.fulfilment,
+            "payment_total_cents": row.payment_total_cents,
+            "status": row.status,
+            "created_at": row.created_at.isoformat() + "Z" if row.created_at else None,
+            "item_count": len(items) if isinstance(items, list) else 0,
+            "payload": payload,
+        })
+
+    return jsonify({"ok": True, "orders": out}), 200
+
+
+@app.post("/me/orders")
+@auth_required
+def save_my_order():
+    u = request.pp_user
+    data = request.get_json() or {}
+
+    website_order_id = (data.get("website_order_id") or "").strip()
+    if not website_order_id:
+        return jsonify({"ok": False, "error": "Missing website_order_id"}), 400
+
+    existing = OrderHistory.query.filter_by(website_order_id=website_order_id).first()
+    if existing:
+        return jsonify({"ok": True, "id": existing.id, "deduped": True}), 200
+
+    fulfilment = (data.get("fulfilment") or "pickup").strip().lower()
+    try:
+        payment_total_cents = int(data.get("payment_total_cents") or 0)
+    except Exception:
+        payment_total_cents = 0
+
+    row = OrderHistory(
+        user_id=u.id,
+        website_order_id=website_order_id,
+        fulfilment=fulfilment,
+        payment_total_cents=payment_total_cents,
+        status="sent",
+        payload_json=json.dumps(data),
+    )
+    db.session.add(row)
+    db.session.commit()
+
+    return jsonify({"ok": True, "id": row.id}), 201
 
 
 @app.post("/auth/request-reset")

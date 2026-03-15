@@ -16697,3 +16697,56 @@ button[title="Close"]::after,
 .detail-panel > button.quantity-btn[title="Close"]::after{
   background: rgb(220, 38, 38) !important;
 }
+
+.pp-orderHistoryList{
+  display:grid;
+  gap:0.85rem;
+}
+
+.pp-orderHistoryCard{
+  border:1px solid var(--border-color);
+  border-radius:18px;
+  padding:0.95rem 1rem;
+  background:rgba(255,255,255,0.03);
+  box-shadow:var(--shadow-card);
+}
+
+.pp-orderHistoryTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:0.75rem;
+  margin-bottom:0.45rem;
+}
+
+.pp-orderHistoryTitle{
+  font-weight:950;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+}
+
+.pp-orderHistoryMeta{
+  color:var(--text-medium);
+  font-size:0.86rem;
+}
+
+.pp-orderHistoryItems{
+  color:var(--text-medium);
+  font-size:0.9rem;
+  margin-top:0.35rem;
+}
+
+.pp-orderHistoryActions{
+  display:flex;
+  gap:0.6rem;
+  flex-wrap:wrap;
+  margin-top:0.8rem;
+}
+
+.pp-orderHistoryEmpty{
+  padding:1rem;
+  border-radius:16px;
+  border:1px dashed var(--border-color);
+  color:var(--text-medium);
+  text-align:center;
+}

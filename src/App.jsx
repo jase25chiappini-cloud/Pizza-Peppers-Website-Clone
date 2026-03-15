@@ -284,6 +284,312 @@ function useLocalProfile(user) {
   );
 }
 
+const AUTH_BASE = (
+  import.meta.env.VITE_PP_AUTH_BASE_URL ||
+  import.meta.env.VITE_PP_MENU_BASE_URL ||
+  import.meta.env.VITE_PP_POS_BASE_URL ||
+  import.meta.env.VITE_PP_RENDER_BASE_URL ||
+  ""
+).replace(/\/+$/, "");
+
+function readSessionToken() {
+  try {
+    const raw = JSON.parse(localStorage.getItem("pp_session_v1") || "null");
+    const token = String(raw?.token || "").trim();
+    if (token) return token;
+  } catch {}
+
+  try {
+    const fallback = String(localStorage.getItem("pp_auth_token_v1") || "").trim();
+    return fallback || null;
+  } catch {
+    return null;
+  }
+}
+
+async function readJsonSafeLocal(res) {
+  const txt = await res.text().catch(() => "");
+  try {
+    return txt ? JSON.parse(txt) : {};
+  } catch {
+    return { ok: false, error: txt ? txt.slice(0, 180) : `HTTP ${res.status}` };
+  }
+}
+
+function cloneOrderHistoryAddon(opt) {
+  if (opt == null) return null;
+  if (typeof opt === "string") {
+    const s = opt.trim();
+    return s ? { name: s, ref: s } : null;
+  }
+  if (typeof opt === "object") {
+    const next = { ...opt };
+    const name = String(next.name || next.label || next.title || next.ref || next.id || "").trim();
+    if (name && !next.name) next.name = name;
+    if (name && !next.ref) next.ref = name;
+    return next;
+  }
+  const s = String(opt).trim();
+  return s ? { name: s, ref: s } : null;
+}
+
+function cloneOrderHistoryAddons(list) {
+  if (!Array.isArray(list)) return [];
+  return list.map(cloneOrderHistoryAddon).filter(Boolean);
+}
+
+function cloneOrderHistoryRemovedIngredients(list) {
+  if (!Array.isArray(list)) return [];
+  return list
+    .map((entry) => {
+      if (typeof entry === "string") return entry.trim();
+      if (entry && typeof entry === "object") {
+        return String(entry.name || entry.label || entry.ref || entry.id || "").trim();
+      }
+      return String(entry || "").trim();
+    })
+    .filter(Boolean);
+}
+
+function serializeNestedOrderHistoryItem(item) {
+  if (!item || typeof item !== "object") return null;
+
+  const price =
+    Number.isFinite(Number(item?.price))
+      ? Number(item.price)
+      : Number.isFinite(Number(item?.price_cents))
+        ? Number(item.price_cents) / 100
+        : 0;
+  const priceCents = Number.isFinite(Number(item?.price_cents))
+    ? Number(item.price_cents)
+    : Math.round(price * 100);
+
+  return {
+    id: item?.id || null,
+    name: item?.name || "Item",
+    qty: Math.max(1, Number(item?.qty || 1)),
+    price,
+    price_cents: priceCents,
+    size: item?.size ? makeSizeRecord(item.size) : null,
+    isGlutenFree: !!item?.isGlutenFree,
+    add_ons: cloneOrderHistoryAddons(item?.add_ons),
+    removedIngredients: cloneOrderHistoryRemovedIngredients(item?.removedIngredients),
+  };
+}
+
+function serializeCartItemForOrderHistory(item) {
+  if (!item || typeof item !== "object") return null;
+
+  const sizeRecord = item?.size ? makeSizeRecord(item.size) : null;
+  const addOns = cloneOrderHistoryAddons(item?.add_ons);
+  const removedIngredients = cloneOrderHistoryRemovedIngredients(item?.removedIngredients);
+  const extras = [];
+
+  if (addOns.length) {
+    extras.push(
+      ...addOns
+        .map((opt) => String(opt?.name || opt?.ref || "").trim())
+        .filter(Boolean),
+    );
+  }
+  if (Array.isArray(item?.extras)) {
+    extras.push(...item.extras.map((entry) => String(entry || "").trim()).filter(Boolean));
+  }
+  if (item?.isGlutenFree) extras.push("Gluten Free");
+  if (sizeRecord?.name) extras.push(`Size: ${sizeRecord.name}`);
+  if (item?.halfA?.name || item?.halfB?.name) {
+    extras.push(`Half/Half: ${item?.halfA?.name || "?"} | ${item?.halfB?.name || "?"}`);
+  }
+
+  const price =
+    Number.isFinite(Number(item?.price))
+      ? Number(item.price)
+      : Number.isFinite(Number(item?.price_cents))
+        ? Number(item.price_cents) / 100
+        : 0;
+  const priceCents = Number.isFinite(Number(item?.price_cents))
+    ? Number(item.price_cents)
+    : Math.round(price * 100);
+
+  return {
+    id: item?.id || null,
+    name: item?.name || "Item",
+    qty: Math.max(1, Number(item?.qty || 1)),
+    price,
+    price_cents: priceCents,
+    extras,
+    size: sizeRecord,
+    isGlutenFree: !!item?.isGlutenFree,
+    removedIngredients,
+    add_ons: addOns,
+    isHalfHalf: !!item?.isHalfHalf,
+    halfHalfSurchargeCents: Number(item?.halfHalfSurchargeCents || 0) || 0,
+    halfA: serializeNestedOrderHistoryItem(item?.halfA),
+    halfB: serializeNestedOrderHistoryItem(item?.halfB),
+    bundle_items: Array.isArray(item?.bundle_items)
+      ? item.bundle_items
+          .map((bundleItem) => {
+            const next = serializeNestedOrderHistoryItem(bundleItem);
+            if (!next) return null;
+            return {
+              ...next,
+              bundle_slot: bundleItem?.bundle_slot || null,
+              isHalfHalf: !!bundleItem?.isHalfHalf,
+              halfHalfSurchargeCents: Number(bundleItem?.halfHalfSurchargeCents || 0) || 0,
+              halfA: serializeNestedOrderHistoryItem(bundleItem?.halfA),
+              halfB: serializeNestedOrderHistoryItem(bundleItem?.halfB),
+            };
+          })
+          .filter(Boolean)
+      : [],
+  };
+}
+
+function inferOrderHistorySize(item) {
+  if (item?.size) return item.size;
+  const sizeExtra = Array.isArray(item?.extras)
+    ? item.extras.find((entry) => /^size:\s*/i.test(String(entry || "")))
+    : "";
+  if (sizeExtra) {
+    return String(sizeExtra).replace(/^size:\s*/i, "").trim() || "Default";
+  }
+  return "Default";
+}
+
+function inferOrderHistoryGlutenFree(item) {
+  if (item?.isGlutenFree) return true;
+  return Array.isArray(item?.extras)
+    ? item.extras.some((entry) => String(entry || "").trim().toLowerCase() === "gluten free")
+    : false;
+}
+
+function inferOrderHistoryAddOns(item) {
+  if (Array.isArray(item?.add_ons) && item.add_ons.length) {
+    return cloneOrderHistoryAddons(item.add_ons);
+  }
+  if (!Array.isArray(item?.extras)) return [];
+  return item.extras
+    .map((entry) => String(entry || "").trim())
+    .filter(
+      (entry) =>
+        entry &&
+        !/^size:\s*/i.test(entry) &&
+        entry.toLowerCase() !== "gluten free" &&
+        !/^half\/half:\s*/i.test(entry),
+    )
+    .map(cloneOrderHistoryAddon)
+    .filter(Boolean);
+}
+
+function restoreOrderHistoryItem(item, fallbackName = "Item") {
+  if (!item || typeof item !== "object") return null;
+
+  const price =
+    Number.isFinite(Number(item?.price))
+      ? Number(item.price)
+      : Number.isFinite(Number(item?.price_cents))
+        ? Number(item.price_cents) / 100
+        : 0;
+
+  const restored = {
+    ...item,
+    id: item?.id || null,
+    name: item?.name || fallbackName,
+    qty: Math.max(1, Number(item?.qty || 1)),
+    price,
+    price_cents: Number.isFinite(Number(item?.price_cents))
+      ? Number(item.price_cents)
+      : Math.round(price * 100),
+    size: makeSizeRecord(inferOrderHistorySize(item)),
+    extras: Array.isArray(item?.extras)
+      ? item.extras.map((entry) => String(entry || "").trim()).filter(Boolean)
+      : [],
+    add_ons: inferOrderHistoryAddOns(item),
+    removedIngredients: cloneOrderHistoryRemovedIngredients(item?.removedIngredients),
+    isGlutenFree: inferOrderHistoryGlutenFree(item),
+  };
+
+  if (Array.isArray(item?.bundle_items)) {
+    restored.bundle_items = item.bundle_items
+      .map((entry, index) => restoreOrderHistoryItem(entry, `Bundle item ${index + 1}`))
+      .filter(Boolean);
+  }
+
+  if (item?.isHalfHalf || item?.halfA || item?.halfB) {
+    restored.isHalfHalf = true;
+    restored.halfHalfSurchargeCents = Number(item?.halfHalfSurchargeCents || 0) || 0;
+    restored.halfA = restoreOrderHistoryItem(item?.halfA, "Pizza 1");
+    restored.halfB = restoreOrderHistoryItem(item?.halfB, "Pizza 2");
+  }
+
+  return restored;
+}
+
+function rebuildCartItemsFromHistoryPayload(orderPayload) {
+  const items = Array.isArray(orderPayload?.items) ? orderPayload.items : [];
+  return items
+    .map((item, index) => restoreOrderHistoryItem(item, `Item ${index + 1}`))
+    .filter(Boolean);
+}
+
+function formatOrderHistoryDateLabel(value) {
+  const d = new Date(value || "");
+  if (!Number.isFinite(d.getTime())) return "Unknown date";
+  return new Intl.DateTimeFormat("en-AU", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(d);
+}
+
+function summarizeOrderHistoryItems(order) {
+  const items = Array.isArray(order?.payload?.items) ? order.payload.items : [];
+  if (!items.length) return "No item details saved";
+
+  const summary = items
+    .slice(0, 3)
+    .map((item) => `${Math.max(1, Number(item?.qty || 1))}x ${item?.name || "Item"}`)
+    .join(", ");
+
+  return items.length > 3 ? `${summary} +${items.length - 3} more` : summary;
+}
+
+async function saveOrderHistoryToServer(orderPayload) {
+  if (!AUTH_BASE) return { ok: false, skipped: true };
+  const token = readSessionToken();
+  if (!token) return { ok: false, skipped: true };
+
+  const res = await fetch(`${AUTH_BASE}/me/orders`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(orderPayload),
+  });
+
+  const data = await readJsonSafeLocal(res);
+  if (!res.ok || !data?.ok) {
+    throw new Error(data?.error || "Failed to save order history");
+  }
+  return data;
+}
+
+async function fetchOrderHistoryFromServer(limit = 20) {
+  if (!AUTH_BASE) return [];
+  const token = readSessionToken();
+  if (!token) return [];
+
+  const res = await fetch(`${AUTH_BASE}/me/orders?limit=${limit}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await readJsonSafeLocal(res);
+  if (!res.ok || !data?.ok || !Array.isArray(data?.orders)) return [];
+  return data.orders;
+}
+
 // --- PP Scroll Lock (prevents random stuck scrolling on mobile) ---
 function ppLockBodyScroll() {
   if (typeof window === "undefined" || typeof document === "undefined") return;
@@ -9250,27 +9556,15 @@ function ReviewOrderPanel({
     };
 
     const cartItemToPosItem = (it) => {
-      const extras = [];
-      if (Array.isArray(it?.add_ons)) extras.push(...it.add_ons.map(toExtraString));
-      if (Array.isArray(it?.extras)) extras.push(...it.extras.map(toExtraString));
-      if (it?.isGlutenFree) extras.push("Gluten Free");
-
-      if (it?.size) extras.push(`Size: ${toExtraString(it.size)}`);
-
-      if (it?.halfA?.name || it?.halfB?.name) {
-        extras.push(
-          `Half/Half: ${it?.halfA?.name || "?"} | ${it?.halfB?.name || "?"}`,
-        );
-      }
-
-      const item = {
+      const item = serializeCartItemForOrderHistory(it) || {
         name: it?.name || "Item",
         qty: Number(it?.qty || 1),
         price: Number(it?.price || 0),
-        category: inferCategory(it),
       };
-
-      if (extras.length) item.extras = extras;
+      item.category = inferCategory(it);
+      if (Array.isArray(item.extras)) {
+        item.extras = item.extras.map(toExtraString).filter(Boolean);
+      }
       return item;
     };
 
@@ -9362,6 +9656,14 @@ function ReviewOrderPanel({
       const result = await sendWebsiteOrderToPos(payload, targetUrl);
       console.log("[PP][Order] sent", { result, targetUrl });
 
+      try {
+        if (currentUser) {
+          await saveOrderHistoryToServer(payload);
+        }
+      } catch (historyErr) {
+        console.warn("[PP][OrderHistory] save failed", historyErr);
+      }
+
       setPlaceOk("Order sent to POS.");
       try {
         clearCart?.();
@@ -9390,7 +9692,7 @@ function ReviewOrderPanel({
     } finally {
       setPlacing(false);
     }
-  }, [canPlaceStrict, placing, buildOrderPayload, clearCart, onBack, onOpenProfile]);
+  }, [canPlaceStrict, placing, buildOrderPayload, clearCart, currentUser, onBack, onOpenProfile]);
 
   return (
     <>
@@ -12882,6 +13184,186 @@ function ProfileModal({ onClose, isMapsLoaded }) {
   );
 }
 
+function OrderHistoryModal({ onClose, onOrderAgain }) {
+  const { currentUser } = useAuth();
+  const [loading, setLoading] = React.useState(true);
+  const [orders, setOrders] = React.useState([]);
+  const [err, setErr] = React.useState("");
+  const [expandedId, setExpandedId] = React.useState(null);
+
+  React.useEffect(() => {
+    let alive = true;
+
+    const load = async () => {
+      setLoading(true);
+      setErr("");
+      try {
+        const nextOrders = await fetchOrderHistoryFromServer();
+        if (!alive) return;
+        setOrders(Array.isArray(nextOrders) ? nextOrders : []);
+      } catch (loadErr) {
+        if (!alive) return;
+        setErr(loadErr?.message || "Failed to load order history.");
+      } finally {
+        if (alive) setLoading(false);
+      }
+    };
+
+    load();
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const handleClose = React.useCallback(() => onClose?.(), [onClose]);
+
+  const handleOrderAgain = React.useCallback(
+    (order) => {
+      const itemsFromHistory = rebuildCartItemsFromHistoryPayload(order?.payload);
+      if (!itemsFromHistory.length) {
+        setErr("This order does not contain reusable cart items.");
+        return;
+      }
+      onOrderAgain?.(itemsFromHistory);
+    },
+    [onOrderAgain],
+  );
+
+  return (
+    <div className="pp-modal-backdrop" onClick={handleClose}>
+      <div
+        className="pp-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Order history"
+        onClick={(e) => e.stopPropagation()}
+        style={{ maxWidth: "900px" }}
+      >
+        <div className="pp-modal-header">
+          <div className="pp-modal-title">Order history</div>
+          <button
+            type="button"
+            className="pp-modal-close"
+            aria-label="Close"
+            title="Close"
+            onClick={handleClose}
+          >
+            x
+          </button>
+        </div>
+
+        <div className="pp-modal-body">
+          {err ? (
+            <div className="pp-warning" style={{ marginTop: 0, marginBottom: "0.85rem" }}>
+              {err}
+            </div>
+          ) : null}
+
+          {!currentUser ? (
+            <div className="pp-orderHistoryEmpty">Sign in to view your saved orders.</div>
+          ) : loading ? (
+            <div className="pp-orderHistoryEmpty">Loading your recent orders...</div>
+          ) : !orders.length ? (
+            <div className="pp-orderHistoryEmpty">No saved orders yet.</div>
+          ) : (
+            <div className="pp-orderHistoryList">
+              {orders.map((order) => {
+                const items = Array.isArray(order?.payload?.items) ? order.payload.items : [];
+                const isExpanded = expandedId === order?.id;
+                const fulfilment = String(order?.fulfilment || order?.payload?.fulfilment || "pickup");
+                return (
+                  <div key={order?.website_order_id || order?.id} className="pp-orderHistoryCard">
+                    <div className="pp-orderHistoryTop">
+                      <div>
+                        <div className="pp-orderHistoryTitle">
+                          {formatOrderHistoryDateLabel(order?.created_at)}
+                        </div>
+                        <div className="pp-orderHistoryMeta">
+                          {currency(order?.payment_total_cents || 0)} · {fulfilment} ·{" "}
+                          {Number(order?.item_count || items.length || 0)} items
+                        </div>
+                      </div>
+                      <div
+                        className="pp-cartItemBadge"
+                        style={{ alignSelf: "flex-start", textTransform: "capitalize" }}
+                      >
+                        {fulfilment}
+                      </div>
+                    </div>
+
+                    <div className="pp-orderHistoryItems">{summarizeOrderHistoryItems(order)}</div>
+
+                    {isExpanded ? (
+                      <div className="pp-orderHistoryItems" style={{ marginTop: "0.7rem" }}>
+                        {items.map((item, itemIndex) => {
+                          const extras = Array.isArray(item?.extras)
+                            ? item.extras.map((entry) => String(entry || "").trim()).filter(Boolean)
+                            : [];
+                          const removed = Array.isArray(item?.removedIngredients)
+                            ? item.removedIngredients.map((entry) => String(entry || "").trim()).filter(Boolean)
+                            : [];
+                          const bundles = Array.isArray(item?.bundle_items) ? item.bundle_items : [];
+                          return (
+                            <div
+                              key={`${order?.id || "order"}_${itemIndex}`}
+                              style={{ marginTop: itemIndex ? "0.65rem" : 0 }}
+                            >
+                              <div style={{ fontWeight: 800 }}>
+                                {Math.max(1, Number(item?.qty || 1))}x {item?.name || "Item"}{" "}
+                                {item?.size ? formatSizeSuffix(item.size) : ""}
+                              </div>
+                              {extras.length ? <div>{extras.join(", ")}</div> : null}
+                              {removed.length ? <div>No {removed.join(", ")}</div> : null}
+                              {item?.halfA?.name || item?.halfB?.name ? (
+                                <div>
+                                  Half / Half: {item?.halfA?.name || "Pizza 1"} /{" "}
+                                  {item?.halfB?.name || "Pizza 2"}
+                                </div>
+                              ) : null}
+                              {bundles.length ? (
+                                <div style={{ marginTop: "0.35rem" }}>
+                                  {bundles.map((bundleItem, bundleIndex) => (
+                                    <div key={`${order?.id || "order"}_${itemIndex}_${bundleIndex}`}>
+                                      {bundleItem?.bundle_slot ? `${bundleItem.bundle_slot}: ` : ""}
+                                      {Math.max(1, Number(bundleItem?.qty || 1))}x {bundleItem?.name || "Item"}{" "}
+                                      {bundleItem?.size ? formatSizeSuffix(bundleItem.size) : ""}
+                                    </div>
+                                  ))}
+                                </div>
+                              ) : null}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : null}
+
+                    <div className="pp-orderHistoryActions">
+                      <button
+                        type="button"
+                        className="simple-button"
+                        onClick={() => setExpandedId(isExpanded ? null : order?.id)}
+                      >
+                        {isExpanded ? "Hide details" : "View details"}
+                      </button>
+                      <button
+                        type="button"
+                        className="simple-button"
+                        onClick={() => handleOrderAgain(order)}
+                      >
+                        Order again
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // === Pizza Peppers delivery suburbs (display list) ===
 // Values are dollars (UI shows $x.xx). Source provided by owner.
 const deliveryZones = {
@@ -13599,6 +14081,7 @@ function Navbar({
   onCartClick,
   onLoginClick,
   onProfileClick,
+  onOrderHistoryClick,
   onLoyaltyClick,
   loyaltyEnabled = true,
   loyaltyJoined = false,
@@ -13973,6 +14456,16 @@ function Navbar({
                         className="pp-topnav__acctItem"
                       >
                         Profile
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAcctOpen(false);
+                          onOrderHistoryClick?.();
+                        }}
+                        className="pp-topnav__acctItem"
+                      >
+                        Order history
                       </button>
                       <button
                         type="button"
@@ -14615,7 +15108,7 @@ function AppLayout({ isMapsLoaded }) {
     typeof window !== "undefined" &&
     new URLSearchParams(window.location.search).has("menuDebug");
 
-  const { cart, totalPrice, addToCart, removeFromCart } = useCart();
+  const { cart, totalPrice, addToCart, removeFromCart, clearCart } = useCart();
   const cartItemCount = React.useMemo(() => {
     return (cart || []).reduce((sum, it) => sum + (Number(it?.qty) || 1), 0);
   }, [cart]);
@@ -14676,6 +15169,7 @@ function AppLayout({ isMapsLoaded }) {
   const [customizingItem, setCustomizingItem] = useState(null);
   const [rightPanelView, setRightPanelView] = useState("order");
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [orderHistoryOpen, setOrderHistoryOpen] = useState(false);
   const [isLoyaltyOpen, setIsLoyaltyOpen] = useState(false);
   const [loyaltyEnabled, setLoyaltyEnabled] = React.useState(() => {
     if (typeof window === "undefined") return true;
@@ -14783,6 +15277,12 @@ function AppLayout({ isMapsLoaded }) {
   }, [isProfileOpen]);
 
   React.useEffect(() => {
+    if (!orderHistoryOpen) return;
+    ppLockBodyScroll();
+    return () => ppUnlockBodyScroll();
+  }, [orderHistoryOpen]);
+
+  React.useEffect(() => {
     if (!isLoyaltyOpen) return;
     ppLockBodyScroll();
     return () => ppUnlockBodyScroll();
@@ -14799,6 +15299,7 @@ function AppLayout({ isMapsLoaded }) {
     authCtx.showLogin ||
     cartModalOpen ||
     isProfileOpen ||
+    orderHistoryOpen ||
     isLoyaltyOpen ||
     (isMobile && !!selectedItem);
 
@@ -14840,6 +15341,7 @@ function AppLayout({ isMapsLoaded }) {
     !authCtx.showLogin &&
     !cartModalOpen &&
     !isProfileOpen &&
+    !orderHistoryOpen &&
     !isLoyaltyOpen &&
     !selectedItem; // hides during item detail + meal deal editor + half&half, etc.
 
@@ -14847,6 +15349,7 @@ function AppLayout({ isMapsLoaded }) {
     if (!loyaltyEnabled) return;
     setCartModalOpen(false);
     setIsProfileOpen(false);
+    setOrderHistoryOpen(false);
     setIsLoyaltyOpen(true);
   }, [loyaltyEnabled]);
 
@@ -14916,6 +15419,7 @@ function AppLayout({ isMapsLoaded }) {
   const goToMenu = React.useCallback(() => {
     // Hard reset: close any overlays and return to the menu screen.
     setIsProfileOpen(false);
+    setOrderHistoryOpen(false);
     setCartModalOpen(false);
 
     setSelectedItem(null);
@@ -14931,6 +15435,7 @@ function AppLayout({ isMapsLoaded }) {
   }, [
     navigate,
     setIsProfileOpen,
+    setOrderHistoryOpen,
     setCartModalOpen,
     setSelectedItem,
     setCustomizingItem,
@@ -15267,8 +15772,22 @@ function AppLayout({ isMapsLoaded }) {
       "authLoading=",
       authLoadingFlag,
     );
+    setOrderHistoryOpen(false);
     setIsProfileOpen(true);
   }, [authLoadingFlag, authUser]);
+
+  const handleOrderHistoryOpen = React.useCallback(() => {
+    setIsProfileOpen(false);
+    setIsLoyaltyOpen(false);
+    setOrderHistoryOpen(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (authLoadingFlag) return;
+    if (authUser) return;
+    if (!orderHistoryOpen) return;
+    setOrderHistoryOpen(false);
+  }, [authLoadingFlag, authUser, orderHistoryOpen]);
 
   const forceMenuReady = React.useCallback(() => {
     if (bootDoneRef.current) return;
@@ -16238,6 +16757,21 @@ function AppLayout({ isMapsLoaded }) {
           }}
         />
       )}
+      {orderHistoryOpen ? (
+        <OrderHistoryModal
+          onClose={() => setOrderHistoryOpen(false)}
+          onOrderAgain={(itemsFromHistory) => {
+            clearCart?.();
+            addToCart?.(itemsFromHistory);
+            setSelectedItem(null);
+            setRightPanelView("review");
+            setOrderHistoryOpen(false);
+            try {
+              if (isMobile) setCartModalOpen(true);
+            } catch {}
+          }}
+        />
+      ) : null}
       <LoyaltyModal
         isOpen={!!isLoyaltyOpen && !!loyaltyEnabled}
         onClose={() => {
@@ -16257,6 +16791,7 @@ function AppLayout({ isMapsLoaded }) {
                 onCartClick={showCartPanel}
                 onLoginClick={(tab) => authCtx.openLogin(tab)}
                 onProfileClick={handleProfileOpen}
+                onOrderHistoryClick={handleOrderHistoryOpen}
                 onLoyaltyClick={openLoyalty}
                 loyaltyEnabled={loyaltyEnabled}
                 loyaltyJoined={loyaltyJoined}
@@ -16357,10 +16892,12 @@ function AppLayout({ isMapsLoaded }) {
         )}
         {!isAdminRoute && isMobile && (
           <MobileBottomNav
-            elevated={!!cartModalOpen || !!isProfileOpen || !!isLoyaltyOpen}
+            elevated={!!cartModalOpen || !!isProfileOpen || !!orderHistoryOpen || !!isLoyaltyOpen}
             activeKey={
               isLoyaltyOpen && loyaltyEnabled
                 ? "loyalty"
+                : orderHistoryOpen
+                ? "profile"
                 : isProfileOpen
                 ? "profile"
                 : cartModalOpen && rightPanelView === "about"
