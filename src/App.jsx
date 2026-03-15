@@ -193,7 +193,7 @@ const PROFILE_UPDATED_EVENT = "pp-profile-updated";
 const FEATURE_FLAGS_UPDATED_EVENT = "pp-featureflags-updated";
 const FEATURE_LOYALTY_ENABLED_KEY = "pp_feature_loyalty_enabled";
 const ORDER_TARGET_MODE_KEY = "pp_order_target_mode";
-const BROTHER_TEST_ORDER_INGEST_URL = "https://pizza-pos-dev.onrender.com/cashier";
+const BROTHER_TEST_ORDER_INGEST_URL = "https://pizza-pos-dev.onrender.com/api/website/order";
 
 function readLoyaltyFeatureEnabled() {
   try {

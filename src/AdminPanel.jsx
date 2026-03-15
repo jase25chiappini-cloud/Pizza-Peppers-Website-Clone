@@ -11,7 +11,7 @@ const FEATURE_FLAGS_UPDATED_EVENT = "pp-featureflags-updated";
 const FEATURE_LOYALTY_ENABLED_KEY = "pp_feature_loyalty_enabled";
 const ORDER_TARGET_MODE_KEY = "pp_order_target_mode";
 const ORDER_TARGET_CHANGED_EVENT = "pp-order-target-changed";
-const BROTHER_TEST_ORDER_URL = "https://pizza-pos-dev.onrender.com/cashier";
+const BROTHER_TEST_ORDER_URL = "https://pizza-pos-dev.onrender.com/api/website/order";
 const ADMIN_THEME_KEY = "pp_admin_theme_v1";
 // Hard gate: only admins may view this page.
 const REQUIRED_ADMIN_ROLE = "admin";
