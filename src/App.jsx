@@ -590,6 +590,93 @@ async function fetchOrderHistoryFromServer(limit = 20) {
   return data.orders;
 }
 
+function extractOrderAgainCandidates(orders, currentMenuData) {
+  const rows = [];
+  const seen = new Map();
+
+  const currentProducts = [];
+  (currentMenuData?.categories || []).forEach((cat) => {
+    (cat?.items || []).forEach((item) => currentProducts.push(item));
+  });
+
+  const findMenuMatch = (histItem) => {
+    if (!histItem) return null;
+
+    const byId =
+      currentProducts.find((p) => String(p?.id) === String(histItem?.id)) || null;
+    if (byId) return byId;
+
+    const byName =
+      currentProducts.find(
+        (p) =>
+          String(p?.name || "").trim().toLowerCase() ===
+          String(histItem?.name || "").trim().toLowerCase(),
+      ) || null;
+
+    return byName;
+  };
+
+  const makeKey = (it) =>
+    JSON.stringify({
+      id: it?.id || null,
+      name: it?.name || null,
+      size: it?.size || null,
+      isGlutenFree: !!it?.isGlutenFree,
+      add_ons: it?.add_ons || [],
+      removedIngredients: it?.removedIngredients || [],
+      halfA: it?.halfA || null,
+      halfB: it?.halfB || null,
+      bundle_items: it?.bundle_items || null,
+    });
+
+  (orders || []).forEach((order) => {
+    const payload = order?.payload || {};
+    const items = Array.isArray(payload?.items) ? payload.items : [];
+
+    items.forEach((histItem) => {
+      const menuMatch = findMenuMatch(histItem);
+      if (!menuMatch) return;
+
+      const key = makeKey(histItem);
+      const existing = seen.get(key);
+
+      const merged = {
+        ...menuMatch,
+        ...histItem,
+        __orderAgain: true,
+        __lastOrderedAt: order?.created_at || null,
+        __timesOrdered: (existing?.__timesOrdered || 0) + 1,
+      };
+
+      if (!existing) {
+        seen.set(key, merged);
+        rows.push(merged);
+      } else {
+        seen.set(key, {
+          ...existing,
+          __timesOrdered: (existing.__timesOrdered || 1) + 1,
+          __lastOrderedAt:
+            order?.created_at &&
+            (!existing.__lastOrderedAt || order.created_at > existing.__lastOrderedAt)
+              ? order.created_at
+              : existing.__lastOrderedAt,
+        });
+      }
+    });
+  });
+
+  const out = Array.from(seen.values());
+
+  out.sort((a, b) => {
+    const ad = new Date(a.__lastOrderedAt || 0).getTime();
+    const bd = new Date(b.__lastOrderedAt || 0).getTime();
+    if (bd !== ad) return bd - ad;
+    return (b.__timesOrdered || 0) - (a.__timesOrdered || 0);
+  });
+
+  return out.slice(0, 12);
+}
+
 // --- PP Scroll Lock (prevents random stuck scrolling on mobile) ---
 function ppLockBodyScroll() {
   if (typeof window === "undefined" || typeof document === "undefined") return;
@@ -7888,11 +7975,21 @@ function Menu({ menuData, onItemClick, showFooter = false }) {
                   </div>
 
                   {/* Description lives under the image (optional) */}
-                  {item.description ? (
+                  {item.description || item.__orderAgain ? (
                     <div className="card-text-container">
-                      <p className="card-item-description">
-                        {item.description}
-                      </p>
+                      {item.description ? (
+                        <p className="card-item-description">
+                          {item.description}
+                        </p>
+                      ) : null}
+                      {item.__orderAgain ? (
+                        <div className="pp-orderAgainMeta">
+                          <span className="pp-orderAgainBadge">Ordered before</span>
+                          {item.__lastOrderedAt ? (
+                            <div>Last ordered {formatOrderHistoryDateLabel(item.__lastOrderedAt)}</div>
+                          ) : null}
+                        </div>
+                      ) : null}
                     </div>
                   ) : null}
                 </div>
@@ -15169,6 +15266,7 @@ function AppLayout({ isMapsLoaded }) {
   const [customizingItem, setCustomizingItem] = useState(null);
   const [rightPanelView, setRightPanelView] = useState("order");
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [orderHistoryItems, setOrderHistoryItems] = useState([]);
   const [orderHistoryOpen, setOrderHistoryOpen] = useState(false);
   const [isLoyaltyOpen, setIsLoyaltyOpen] = useState(false);
   const [loyaltyEnabled, setLoyaltyEnabled] = React.useState(() => {
@@ -15735,6 +15833,51 @@ function AppLayout({ isMapsLoaded }) {
     hhMobileDraft,
   ]);
 
+  const menuDataWithOrderAgain = useMemo(() => {
+    if (!authUser) return menuDataForHome;
+    if (!Array.isArray(orderHistoryItems) || !orderHistoryItems.length) return menuDataForHome;
+    if (!menuDataForHome || !Array.isArray(menuDataForHome.categories)) return menuDataForHome;
+
+    const syntheticCategory = {
+      ref: "ORDER_AGAIN",
+      name: "Order Again",
+      items: orderHistoryItems,
+    };
+
+    return {
+      ...menuDataForHome,
+      categories: [syntheticCategory, ...menuDataForHome.categories],
+    };
+  }, [menuDataForHome, authUser, orderHistoryItems]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function run() {
+      try {
+        if (!authUser) {
+          if (!cancelled) setOrderHistoryItems([]);
+          return;
+        }
+
+        const orders = await fetchOrderHistoryFromServer(20);
+        const candidates = extractOrderAgainCandidates(orders, menuData);
+
+        if (!cancelled) {
+          setOrderHistoryItems(candidates);
+        }
+      } catch (err) {
+        console.warn("[PP][OrderAgain] failed to load", err);
+        if (!cancelled) setOrderHistoryItems([]);
+      }
+    }
+
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [authUser, menuData]);
+
   const menuItems = React.useMemo(() => {
     const sourceMenu = menuDataForHome || menuData;
     const categories = Array.isArray(sourceMenu?.categories)
@@ -16155,11 +16298,26 @@ function AppLayout({ isMapsLoaded }) {
   );
 
   const handleItemClick = useCallback(
-    (menuItem) =>
-      isMobileScreen
+    (menuItem) => {
+      if (menuItem?.__orderAgain) {
+        const rebuilt = {
+          ...menuItem,
+          qty: Number(menuItem?.qty || 1),
+          add_ons: Array.isArray(menuItem?.add_ons) ? menuItem.add_ons : [],
+          removedIngredients: Array.isArray(menuItem?.removedIngredients)
+            ? menuItem.removedIngredients
+            : [],
+        };
+
+        addToCart([rebuilt]);
+        return;
+      }
+
+      return isMobileScreen
         ? handleItemClickMobile(menuItem)
-        : handleItemClickDesktop(menuItem),
-    [isMobileScreen, handleItemClickMobile, handleItemClickDesktop],
+        : handleItemClickDesktop(menuItem);
+    },
+    [isMobileScreen, handleItemClickMobile, handleItemClickDesktop, addToCart],
   );
 
   const handleResumeMealDeal = useCallback(() => {
@@ -16817,7 +16975,7 @@ function AppLayout({ isMapsLoaded }) {
                   path="/"
                   element={
                     <Home
-                      menuData={menuDataForHome}
+                      menuData={menuDataWithOrderAgain}
                       isMobileScreen={isMobileScreen}
                       handleItemClick={handleItemClick}
                       hhMobilePicking={hhMobilePicking}
