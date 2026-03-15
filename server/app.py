@@ -39,6 +39,7 @@ else:
         r"^http://localhost:\d+$",
         r"^http://127\.0\.0\.1:\d+$",
     ] if not IS_PROD else [
+        "https://pizza-peppers-website.onrender.com",
         "http://localhost:5173",
         "http://127.0.0.1:5173",
     ]
