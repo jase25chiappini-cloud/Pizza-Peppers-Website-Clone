@@ -13305,6 +13305,7 @@ function OrderHistoryModal({ onClose, onOrderAgain }) {
   const [orders, setOrders] = React.useState([]);
   const [err, setErr] = React.useState("");
   const [expandedId, setExpandedId] = React.useState(null);
+  const [pendingReorder, setPendingReorder] = React.useState(null);
 
   React.useEffect(() => {
     let alive = true;
@@ -13332,17 +13333,27 @@ function OrderHistoryModal({ onClose, onOrderAgain }) {
 
   const handleClose = React.useCallback(() => onClose?.(), [onClose]);
 
-  const handleOrderAgain = React.useCallback(
-    (order) => {
-      const itemsFromHistory = rebuildCartItemsFromHistoryPayload(order?.payload);
-      if (!itemsFromHistory.length) {
-        setErr("This order does not contain reusable cart items.");
-        return;
-      }
-      onOrderAgain?.(itemsFromHistory);
-    },
-    [onOrderAgain],
-  );
+  const handleStartOrderAgain = React.useCallback((order) => {
+    setPendingReorder(order || null);
+  }, []);
+
+  const handleConfirmOrderAgain = React.useCallback(() => {
+    if (!pendingReorder) return;
+
+    const itemsFromHistory = rebuildCartItemsFromHistoryPayload(pendingReorder?.payload);
+    if (!itemsFromHistory.length) {
+      setErr("This order does not contain reusable cart items.");
+      setPendingReorder(null);
+      return;
+    }
+
+    onOrderAgain?.(itemsFromHistory);
+    setPendingReorder(null);
+  }, [onOrderAgain, pendingReorder]);
+
+  const handleCancelOrderAgain = React.useCallback(() => {
+    setPendingReorder(null);
+  }, []);
 
   return (
     <div
@@ -13377,7 +13388,48 @@ function OrderHistoryModal({ onClose, onOrderAgain }) {
             </div>
           ) : null}
 
-          {!currentUser ? (
+          {pendingReorder ? (
+            <div className="pp-orderHistoryConfirm">
+              <div className="pp-orderHistoryConfirmCard">
+                <div className="pp-orderHistoryConfirmTitle">Add this previous order to cart?</div>
+
+                <div className="pp-orderHistoryConfirmMeta">
+                  {formatOrderHistoryDateLabel(pendingReorder?.created_at)} ·{" "}
+                  {currency(pendingReorder?.payment_total_cents || 0)} ·{" "}
+                  {String(
+                    pendingReorder?.fulfilment || pendingReorder?.payload?.fulfilment || "pickup"
+                  )}
+                </div>
+
+                <div className="pp-orderHistoryConfirmText">
+                  This will add the saved items from this order to your cart. You can still review or
+                  edit the cart before checkout.
+                </div>
+
+                <div className="pp-orderHistoryConfirmItems">
+                  {summarizeOrderHistoryItems(pendingReorder)}
+                </div>
+
+                <div className="pp-orderHistoryActions pp-orderHistoryConfirmActions">
+                  <button
+                    type="button"
+                    className="simple-button"
+                    onClick={handleCancelOrderAgain}
+                  >
+                    Back
+                  </button>
+
+                  <button
+                    type="button"
+                    className="pp-btn"
+                    onClick={handleConfirmOrderAgain}
+                  >
+                    Add to cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : !currentUser ? (
             <div className="pp-orderHistoryEmpty">Sign in to view your saved orders.</div>
           ) : loading ? (
             <div className="pp-orderHistoryEmpty">Loading your recent orders...</div>
@@ -13466,7 +13518,7 @@ function OrderHistoryModal({ onClose, onOrderAgain }) {
                       <button
                         type="button"
                         className="simple-button"
-                        onClick={() => handleOrderAgain(order)}
+                        onClick={() => handleStartOrderAgain(order)}
                       >
                         Order again
                       </button>
