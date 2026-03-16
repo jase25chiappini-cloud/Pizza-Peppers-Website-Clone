@@ -16588,6 +16588,51 @@ function AppLayout({ isMapsLoaded }) {
     setRightPanelView("about");
     if (isMobile) setCartModalOpen(true);
   };
+
+  const openTermsPage = React.useCallback(() => {
+    try {
+      setIsProfileOpen(false);
+    } catch {}
+
+    try {
+      setCartModalOpen(false);
+    } catch {}
+
+    try {
+      setSelectedItem(null);
+    } catch {}
+
+    try {
+      setCustomizingItem(null);
+    } catch {}
+
+    try {
+      setEditingIndex(null);
+    } catch {}
+
+    try {
+      setRightPanelView("order");
+    } catch {}
+
+    try {
+      navigate("/terms", { replace: false });
+    } catch {}
+
+    try {
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      });
+    } catch {}
+  }, [
+    navigate,
+    setIsProfileOpen,
+    setCartModalOpen,
+    setSelectedItem,
+    setCustomizingItem,
+    setEditingIndex,
+    setRightPanelView,
+  ]);
+
   React.useEffect(() => {
     let alive = true;
 
@@ -16874,7 +16919,10 @@ function AppLayout({ isMapsLoaded }) {
       )}
       {!selectedItem &&
         (rightPanelView === "about" ? (
-          <AboutPanel isMapsLoaded={isMapsLoaded} />
+          <AboutPanel
+            isMapsLoaded={isMapsLoaded}
+            onOpenTerms={openTermsPage}
+          />
         ) : rightPanelView === "review" ? (
           <ReviewOrderPanel
             onBack={() => setRightPanelView("order")}
@@ -17221,7 +17269,7 @@ function App() {
   );
 }
 
-function AboutPanel({ isMapsLoaded }) {
+function AboutPanel({ isMapsLoaded, onOpenTerms }) {
   const [currentView, setCurrentView] = useState("main"); // 'main', 'hours', or 'delivery'
   const [pcValue, setPcValue] = useState("");
   const [pcResult, setPcResult] = useState(null);
@@ -17527,10 +17575,14 @@ function AboutPanel({ isMapsLoaded }) {
         ) : null}
       </div>
       <div className="about-panel-list-item">
-        <Link to="/terms">
+        <button
+          type="button"
+          onClick={() => onOpenTerms?.()}
+          aria-label="Open terms and conditions"
+        >
           <h4>Terms & Conditions</h4>
           <p>View our terms of service</p>
-        </Link>
+        </button>
       </div>
     </>
   );
