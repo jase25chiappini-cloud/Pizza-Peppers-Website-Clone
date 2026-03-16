@@ -17002,3 +17002,73 @@ button[title="Close"]::after,
   font-weight:800;
   letter-spacing:0.02em;
 }
+
+/* =========================================================
+   Profile modal - kill sideways scrolling / horizontal overflow
+   ========================================================= */
+
+.pp-profileOverlay{
+  overflow-x: hidden;
+}
+
+.pp-profileModal{
+  width: min(980px, calc(100vw - 2rem));
+  max-width: calc(100vw - 2rem);
+  overflow: hidden;
+}
+
+.pp-profileModal .pp-modal-header,
+.pp-profileModal .pp-modal-body{
+  min-width: 0;
+}
+
+.pp-profileModal .pp-modal-body{
+  overflow-x: hidden !important;
+  overscroll-behavior-x: none;
+}
+
+/* Clamp all profile layout children so no row/grid item can force horizontal scroll */
+.pp-profileModal .profile-modal,
+.pp-profileModal .profile-grid,
+.pp-profileModal .profile-grid > *,
+.pp-profileModal .profile-card,
+.pp-profileModal .avatar-row,
+.pp-profileModal .avatar-actions,
+.pp-profileModal .pp-form-row,
+.pp-profileModal .pp-form-row > *,
+.pp-profileModal .pp-form-field,
+.pp-profileModal .pp-field,
+.pp-profileModal .pp-autocomplete-mount,
+.pp-profileModal .pp-autocomplete-mount gmp-place-autocomplete{
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Inputs/buttons/autocomplete must never exceed the modal width */
+.pp-profileModal .pp-input,
+.pp-profileModal input,
+.pp-profileModal select,
+.pp-profileModal textarea,
+.pp-profileModal button{
+  max-width: 100%;
+}
+
+/* Make the upload button row behave nicely on small widths */
+.pp-profileModal .avatar-actions{
+  min-width: 0;
+}
+
+@media (max-width: 900px){
+  .pp-profileModal{
+    width: calc(100vw - 1rem);
+    max-width: calc(100vw - 1rem);
+  }
+
+  .pp-profileModal .profile-card{
+    padding: 14px;
+  }
+
+  .pp-profileModal .avatar-actions{
+    justify-items: stretch;
+  }
+}
