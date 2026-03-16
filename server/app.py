@@ -925,6 +925,7 @@ def public_menu():
         pos_url = (os.getenv("POS_MENU_URL") or "").strip()
 
         raw = None
+        upstream_error = None
         if pos_url:
             try:
                 headers = {"Accept": "application/json"}
@@ -938,22 +939,29 @@ def public_menu():
                 if res.ok:
                     raw = res.json()
                 else:
-                    return jsonify({
+                    upstream_error = {
                         "error": "Upstream menu fetch failed",
                         "upstream_status": res.status_code,
                         "upstream_body": (res.text or "")[:200],
                         "pos_url": pos_url,
-                    }), 502
+                    }
+                    print("[menu] upstream non-ok:", upstream_error)
             except Exception as e:
-                return jsonify({
+                upstream_error = {
                     "error": "Upstream menu fetch exception",
                     "pos_url": pos_url,
                     "detail": f"{e.__class__.__name__}: {e}",
-                }), 502
+                }
+                print("[menu] upstream exception:", upstream_error)
 
         # 2) Fallback to local file(s) when live fetch is unavailable
         if raw is None:
-            raw = _load_menu_json()
+            try:
+                raw = _load_menu_json()
+            except Exception:
+                if upstream_error:
+                    return jsonify(upstream_error), 502
+                raise
 
         out = _normalize_to_minimal_catalog(raw)
         data = out.get("data", {})
