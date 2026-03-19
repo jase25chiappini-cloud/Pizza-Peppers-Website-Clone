@@ -8814,7 +8814,12 @@ html[data-theme="light"] .pp-halfhalf-panel .pp-hh-actionBtn--danger{
    Clear + premium in both themes
    ========================================================= */
 .pp-halfhalf-panel .pp-hh-titleBar{
-  padding: 0.85rem 0.9rem 0.2rem;
+  position: relative;
+  padding: 0.45rem 3.2rem 0.2rem 0.9rem;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   text-align: center;
 }
 
@@ -8825,6 +8830,20 @@ html[data-theme="light"] .pp-halfhalf-panel .pp-hh-actionBtn--danger{
   font-size: 0.95rem;
   color: var(--brand-neon-green);
   opacity: 0.98;
+}
+
+.pp-halfhalf-panel .pp-hh-closeBtn{
+  position: absolute !important;
+  top: 0.05rem !important;
+  right: 0.25rem !important;
+  z-index: 40 !important;
+}
+
+@media (max-width: 1023.98px){
+  .pp-halfhalf-panel .pp-hh-closeBtn{
+    top: 0.35rem !important;
+    right: 0.45rem !important;
+  }
 }
 
 /* =========================================================
@@ -16316,6 +16335,7 @@ Bigger tap targets and readable layout
     display: -webkit-box !important;
     -webkit-box-orient: vertical !important;
     -webkit-line-clamp: 2 !important;
+    line-clamp: 2 !important;
     overflow: hidden !important;
   }
 }
@@ -16324,6 +16344,7 @@ Bigger tap targets and readable layout
 @media (max-width: 420px){
   #ingredients-modal .pp-disclaimer{
     -webkit-line-clamp: 1 !important;
+    line-clamp: 1 !important;
   }
 }
 
@@ -17071,4 +17092,40 @@ button[title="Close"]::after,
   .pp-profileModal .avatar-actions{
     justify-items: stretch;
   }
+}
+
+/* =========================================================
+   Half / Half close button — final desktop + light mode polish
+   ========================================================= */
+
+.pp-halfhalf-panel .pp-hh-closeBtn{
+  position: absolute !important;
+  top: -0.32rem !important;
+  right: 0.18rem !important;
+  z-index: 60 !important;
+}
+
+/* Tablet/mobile: keep a little more inset */
+@media (max-width: 1023.98px){
+  .pp-halfhalf-panel .pp-hh-closeBtn{
+    top: 0.25rem !important;
+    right: 0.40rem !important;
+  }
+}
+
+/* Light mode: make the bubble suit the pale panel instead of staying dark */
+body[data-theme="light"] .pp-halfhalf-panel .pp-hh-closeBtn{
+  border-color: rgba(148,163,184,0.32) !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.94), rgba(232,236,242,0.92)) !important;
+  box-shadow:
+    0 8px 24px rgba(15,23,42,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.95) !important;
+}
+
+/* Optional: keep dark mode looking intentional too */
+body[data-theme="dark"] .pp-halfhalf-panel .pp-hh-closeBtn{
+  background:
+    linear-gradient(180deg, rgba(51,65,85,0.74), rgba(30,41,59,0.70)) !important;
+  border-color: rgba(148,163,184,0.26) !important;
 }

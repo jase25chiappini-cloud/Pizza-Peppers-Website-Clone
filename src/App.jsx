@@ -727,7 +727,8 @@ function ppUnlockBodyScroll() {
 function ppForceUnlockBodyScroll() {
   if (typeof window === "undefined" || typeof document === "undefined") return;
   try {
-    window.__ppScrollLockCount = 0;
+    const key = "__ppScrollLockCount";
+    window[key] = 0;
     document.body.classList.remove("pp-scroll-locked");
   } catch {}
 }
@@ -1747,22 +1748,18 @@ const HalfAndHalfSelector = ({
         WebkitOverflowScrolling: "touch",
       }}
     >
-      <button
-        onClick={() => setSelectedItem(null)}
-        className="quantity-btn"
-        style={{
-          position: "absolute",
-          top: "1.5rem",
-          right: "1.5rem",
-          zIndex: 10,
-        }}
-        title="Close"
-      >
-        x
-      </button>
-
       <div className="pp-hh-titleBar">
         <div className="pp-hh-titleBar__title">Half / Half</div>
+
+        <button
+          type="button"
+          onClick={() => setSelectedItem(null)}
+          className="quantity-btn pp-hh-closeBtn"
+          title="Close"
+          aria-label="Close"
+        >
+          x
+        </button>
       </div>
 
       <div
@@ -6337,7 +6334,10 @@ function AuthProvider({ children }) {
     [setLocalSession],
   );
   const signupLocal = React.useCallback(
-    ({ phone, displayName, token = null, user = null } = {}) =>
+    /**
+     * @param {{ phone?: string, displayName?: string, token?: string | null, user?: any }} [args]
+     */
+    ({ phone = "", displayName = "", token = null, user = null } = {}) =>
       loginLocal(phone, displayName, token, user),
     [loginLocal],
   );
@@ -7241,8 +7241,11 @@ function QuickNav({ menuData, activeCategory, usePortal }) {
       const menuRoot = pickMainMenuRoot();
       if (!menuRoot) return;
 
-      const sections = Array.from(menuRoot.querySelectorAll(".menu-category[id]"))
-        .filter((el) => (el.offsetHeight || 0) > 8);
+      const sections = Array.from(
+        /** @type {NodeListOf<HTMLElement>} */ (
+          menuRoot.querySelectorAll(".menu-category[id]")
+        ),
+      ).filter((el) => el.offsetHeight > 8);
 
       if (!sections.length) return;
 
@@ -9671,16 +9674,19 @@ function ReviewOrderPanel({
     };
 
     const cartItemToPosItem = (it) => {
-      const item = serializeCartItemForOrderHistory(it) || {
-        name: it?.name || "Item",
-        qty: Number(it?.qty || 1),
-        price: Number(it?.price || 0),
+      const serialized = serializeCartItemForOrderHistory(it);
+      return {
+        ...(serialized || {
+          name: it?.name || "Item",
+          qty: Number(it?.qty || 1),
+          price: Number(it?.price || 0),
+          price_cents: dollarsToCents(it?.price || 0),
+        }),
+        category: inferCategory(it),
+        extras: Array.isArray(serialized?.extras)
+          ? serialized.extras.map(toExtraString).filter(Boolean)
+          : [],
       };
-      item.category = inferCategory(it);
-      if (Array.isArray(item.extras)) {
-        item.extras = item.extras.map(toExtraString).filter(Boolean);
-      }
-      return item;
     };
 
     const websiteOrderId = `web_${Date.now()}_${Math.random()
