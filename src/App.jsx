@@ -17299,6 +17299,9 @@ function AboutPanel({ isMapsLoaded, onOpenTerms }) {
       center: ABOUT_STORE_LOCATION,
       zoom: 15,
       disableDefaultUI: true,
+      keyboardShortcuts: false,
+      clickableIcons: false,
+      gestureHandling: "cooperative",
       styles: [
         {
           featureType: "all",
@@ -17470,17 +17473,13 @@ function AboutPanel({ isMapsLoaded, onOpenTerms }) {
       <div className="about-panel-list-item">
         <h4>Our Location</h4>
         <p>{ABOUT_LOCATION_TEXT}</p>
-        <div
-          ref={mapRef}
-          style={{
-            height: "200px",
-            width: "100%",
-            borderRadius: "0.5rem",
-            marginTop: "1rem",
-            background: "var(--surface)",
-            border: "1px solid var(--border-color)",
-          }}
-        />
+        <div className="pp-aboutMapShell">
+          <div
+            ref={mapRef}
+            className="pp-aboutMapCanvas"
+            aria-label="Google Map showing the Pizza Peppers store location"
+          />
+        </div>
       </div>
       <div className="about-panel-list-item">
         <a href={`tel:${ABOUT_PHONE_LINK}`}>
@@ -17537,26 +17536,18 @@ function AboutPanel({ isMapsLoaded, onOpenTerms }) {
       </div>
       <div className="about-panel-list-item">
         <h4>Check your postcode</h4>
-        <form
-          onSubmit={onPcCheck}
-          style={{
-            display: "flex",
-            gap: "0.5rem",
-            flexWrap: "wrap",
-            marginTop: "0.5rem",
-          }}
-        >
+        <form onSubmit={onPcCheck} className="pp-aboutPostcodeForm">
           <input
             value={pcValue}
             onChange={onPcChange}
             placeholder="e.g. 5159"
-            className="w-full border rounded px-2 py-2"
-            style={{ flex: "1 1 160px", minWidth: "140px" }}
+            className="pp-aboutPostcodeInput"
+            inputMode="numeric"
+            autoComplete="postal-code"
           />
           <button
             type="submit"
-            className="pp-btn"
-            style={{ minWidth: "110px" }}
+            className="pp-btn pp-aboutPostcodeBtn"
           >
             Check
           </button>

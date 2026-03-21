@@ -776,6 +776,11 @@ body[data-theme="light"] {
   --background-light: #ffffff;  /* card base */
   --background-dark: #f1f5fb;   /* subtle alt surface */
 
+  --brand-neon-green: #4d7c0f;
+  --brand-green: #3f6212;
+  --accent: var(--brand-neon-green);
+  --accent-2: var(--brand-green);
+
   --pp-surface: #ffffff;
   --pp-surface-2: #f6f8fc;
   --panel: #ffffff;
@@ -1936,6 +1941,37 @@ h1, h2, h3, h4, .panel-title, .card-item-name { font-family: var(--font-heading)
 }
 .about-panel-list-item h4 { margin: 0 0 0.25rem 0; color: var(--brand-neon-green); font-family: var(--font-heading); }
 .about-panel-list-item p { margin: 0; color: var(--text-medium); font-family: var(--font-body); }
+
+.pp-aboutMapShell {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.4rem;
+  border-radius: 0.9rem;
+  border: 1px solid var(--border-color);
+  background: var(--surface);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.pp-aboutMapCanvas {
+  width: 100%;
+  height: 200px;
+  border-radius: 0.65rem;
+  background: var(--surface);
+}
+
+[data-theme='light'] .pp-aboutMapShell {
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.96));
+  box-shadow:
+    0 12px 24px rgba(15,23,42,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.85);
+}
+
+[data-theme='dark'] .pp-aboutMapShell {
+  background: linear-gradient(180deg, rgba(15,23,42,0.94), rgba(11,18,32,0.94));
+  box-shadow:
+    0 12px 24px rgba(0,0,0,0.30),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
 
 @keyframes scan-glow {
   0% { left: -10%; }
@@ -17128,4 +17164,95 @@ body[data-theme="dark"] .pp-halfhalf-panel .pp-hh-closeBtn{
   background:
     linear-gradient(180deg, rgba(51,65,85,0.74), rgba(30,41,59,0.70)) !important;
   border-color: rgba(148,163,184,0.26) !important;
+}
+
+/* =========================================================
+   About panel — postcode checker polish
+   ========================================================= */
+
+.pp-aboutPostcodeForm{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.65rem;
+  align-items: stretch;
+  margin-top: 0.65rem;
+}
+
+.pp-aboutPostcodeInput{
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  border-radius: 14px;
+  padding: 0.8rem 0.95rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border: 1px solid var(--border-color);
+  background: var(--background-light);
+  color: var(--text-primary);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.pp-aboutPostcodeInput::placeholder{
+  color: var(--text-medium);
+  opacity: 0.82;
+}
+
+.pp-aboutPostcodeBtn{
+  min-width: 124px;
+  min-height: 46px;
+  margin-top: 0 !important;
+  padding: 0 1rem !important;
+  border-radius: 16px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: var(--shadow-card);
+}
+
+@media (max-width: 1023.98px){
+  .pp-aboutPostcodeForm{
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .pp-aboutPostcodeBtn{
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    justify-content: center;
+  }
+}
+
+[data-theme="light"] .pp-aboutPostcodeInput{
+  background: rgba(255,255,255,0.92);
+  border-color: rgba(15,23,42,0.14);
+  color: rgba(15,23,42,0.92);
+  box-shadow:
+    0 10px 22px rgba(2,6,23,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.75);
+}
+
+[data-theme="light"] .pp-aboutPostcodeBtn{
+  box-shadow: 0 14px 28px rgba(2,6,23,0.10);
+}
+
+/* =========================================================
+   Light mode accent cleanup — reduce fluorescent lime text
+   ========================================================= */
+[data-theme="light"] .about-panel-list-item h4,
+[data-theme="light"] .pp-modal-title,
+[data-theme="light"] .panel-title,
+[data-theme="light"] .modal-category-title,
+[data-theme="light"] .pp-section h4,
+[data-theme="light"] #loyalty-modal .pp-section h4,
+[data-theme="light"] .pp-md-kicker,
+[data-theme="light"] .pp-mdm-kicker,
+[data-theme="light"] .pp-hh-detailsTitle{
+  color: #4d7c0f !important;
+  text-shadow: none !important;
+}
+
+[data-theme="light"] .about-panel-list-item::before{
+  background-image: linear-gradient(180deg, #65a30d, #4d7c0f);
 }
