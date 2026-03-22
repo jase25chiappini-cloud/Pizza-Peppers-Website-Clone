@@ -788,6 +788,42 @@ function normalizeAddressText(val) {
   return "";
 }
 
+function hasDeliverableStreetAddress(raw, components = []) {
+  const text = normalizeAddressText(raw);
+  if (!text) return false;
+
+  const byType = (t) =>
+    Array.isArray(components)
+      ? components.find(
+          (c) => Array.isArray(c.types) && c.types.includes(t),
+        )
+      : null;
+
+  const streetNumber =
+    getLongNameFromComponent(byType("street_number")) ||
+    getShortNameFromComponent(byType("street_number")) ||
+    "";
+
+  const route =
+    getLongNameFromComponent(byType("route")) ||
+    getShortNameFromComponent(byType("route")) ||
+    "";
+
+  // Best case: Google gives us both parts explicitly
+  if (streetNumber && route) return true;
+
+  // Fallback for manual typing:
+  // allows:
+  // - 107A Kenihans Rd
+  // - 16/217 Pimpala Rd
+  // - Shop 16/217 Pimpala Rd
+  const firstSegment = String(text).split(",")[0].trim();
+
+  return /^(?:(?:unit|u|apt|apartment|suite|shop|level|lvl|lot)\s+\w+\s+)?(?:\d+[A-Za-z]?\/)?\d+[A-Za-z]?\s+[A-Za-z].+/i.test(
+    firstSegment,
+  );
+}
+
 function pickProfileAddress(profile) {
   const line1 = normalizeAddressText(
     profile?.addressLine1 || profile?.address || "",
@@ -4463,6 +4499,7 @@ const DELIVERY_ZONES = {
   "christie downs": 12.6,
   "trott park": 8.4,
   "happy valley": 8.4,
+  "flagstaff hill": 8.4,
   "o'halloran hill": 8.4,
   "hallett cove": 12.6,
   "hackham west": 12.6,
@@ -4628,6 +4665,7 @@ const FALLBACK_ALLOWED_POSTCODES = [
   "5095",
   "5092",
   "5108",
+  "5159",
 ];
 
 let DELIVERY_ALLOWED_SUBURBS = new Set(
@@ -4667,6 +4705,108 @@ function quoteForPostcodeCents(postcode) {
     }
   } catch {}
   return 0;
+}
+
+function normalizeQuotedDelivery(result) {
+  if (typeof result === "number") {
+    return {
+      ok: true,
+      fee: Number(result) || 0,
+      fee_cents: Math.round((Number(result) || 0) * 100),
+    };
+  }
+  if (result && typeof result === "object") {
+    const isQuoted =
+      result.ok ||
+      typeof result.fee_cents === "number" ||
+      typeof result.fee === "number";
+    if (isQuoted) {
+      const cents =
+        typeof result.fee_cents === "number"
+          ? result.fee_cents
+          : Math.round((Number(result.fee || 0) || 0) * 100);
+      return {
+        ok: true,
+        fee_cents: cents,
+        fee: cents / 100,
+        eta_min: result.eta_min || 40,
+      };
+    }
+  }
+  return { ok: false };
+}
+
+function extractPostcodeFromText(raw) {
+  const match = String(raw || "").match(/\b\d{4}\b/);
+  return match ? match[0] : "";
+}
+
+function resolveDeliveryFromAddress(raw, components = []) {
+  const cleaned = normalizeAddressText(raw);
+  const lower = cleaned.toLowerCase();
+
+  let suburbName = "";
+  let postcode = "";
+
+  if (Array.isArray(components) && components.length) {
+    const suburbComponent = components.find((c) =>
+      Array.isArray(c.types) &&
+      (c.types.includes("locality") ||
+        c.types.includes("postal_town") ||
+        c.types.includes("sublocality") ||
+        c.types.includes("sublocality_level_1"))
+    );
+    suburbName = suburbComponent
+      ? String(
+          getLongNameFromComponent(suburbComponent) ||
+            getShortNameFromComponent(suburbComponent) ||
+            "",
+        ).toLowerCase()
+      : "";
+
+    const postcodeComponent = components.find(
+      (c) => Array.isArray(c.types) && c.types.includes("postal_code"),
+    );
+    postcode = postcodeComponent
+      ? String(
+          getLongNameFromComponent(postcodeComponent) ||
+            getShortNameFromComponent(postcodeComponent) ||
+            "",
+        ).trim()
+      : "";
+  }
+
+  if (!postcode) postcode = extractPostcodeFromText(cleaned);
+
+  if (postcode) {
+    const override = OVERRIDE_POSTCODES?.[postcode];
+    const normalizedOverride = normalizeQuotedDelivery(override);
+    if (normalizedOverride.ok) {
+      return { ok: true, fee: normalizedOverride.fee, error: "" };
+    }
+
+    const quoted = normalizeQuotedDelivery(_quoteForPostcode(postcode));
+    if (quoted.ok) {
+      return { ok: true, fee: quoted.fee, error: "" };
+    }
+
+    const localQuoted = quoteForPostcode(postcode);
+    const localNormalized = normalizeQuotedDelivery(localQuoted);
+    if (localNormalized.ok) {
+      return { ok: true, fee: localNormalized.fee, error: "" };
+    }
+  }
+
+  const zoneKeys = Object.keys(DELIVERY_ZONES).sort((a, b) => b.length - a.length);
+  const matchedKey =
+    (suburbName && DELIVERY_ZONES[suburbName] != null && suburbName) ||
+    zoneKeys.find((k) => lower.includes(k));
+
+  if (matchedKey) {
+    return { ok: true, fee: DELIVERY_ZONES[matchedKey], error: "" };
+  }
+
+  return { ok: false, fee: 0, error: "Sorry, we do not deliver to this suburb." };
 }
 
 // Dev shim: ensure window delivery config exists so local builds don't explode
@@ -5885,6 +6025,23 @@ function useGoogleMaps() {
     if (typeof window === "undefined" || typeof document === "undefined") {
       return;
     }
+    const ensureHeadLink = (rel, href, crossOrigin = false) => {
+      try {
+        const id = `pp-link-${rel}-${href}`;
+        if (document.getElementById(id)) return;
+        const link = document.createElement("link");
+        link.id = id;
+        link.rel = rel;
+        link.href = href;
+        if (crossOrigin) link.crossOrigin = "";
+        document.head.appendChild(link);
+      } catch {}
+    };
+
+    ensureHeadLink("dns-prefetch", "//maps.googleapis.com");
+    ensureHeadLink("dns-prefetch", "//maps.gstatic.com");
+    ensureHeadLink("preconnect", "https://maps.googleapis.com", true);
+    ensureHeadLink("preconnect", "https://maps.gstatic.com", true);
     const key = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "";
     try {
       console.log("[maps] env key present?", !!key);
@@ -5892,7 +6049,60 @@ function useGoogleMaps() {
     const scriptId = "pp-google-maps";
     const existing = document.getElementById(scriptId);
 
-    const markLoaded = () => setMapsLoaded(true);
+    const warmGoogleMapOnce = () => {
+      try {
+        if (typeof window === "undefined" || typeof document === "undefined") return;
+        if (!window.google?.maps) return;
+        if (window.__ppAboutMapWarmed) return;
+
+        window.__ppAboutMapWarmed = true;
+
+        const warmHost = document.createElement("div");
+        warmHost.id = "pp-about-map-warm-host";
+        warmHost.style.position = "fixed";
+        warmHost.style.left = "-99999px";
+        warmHost.style.top = "0";
+        warmHost.style.width = "320px";
+        warmHost.style.height = "200px";
+        warmHost.style.opacity = "0";
+        warmHost.style.pointerEvents = "none";
+        warmHost.style.overflow = "hidden";
+        document.body.appendChild(warmHost);
+
+        const maps = window.google.maps;
+        const map = new maps.Map(warmHost, {
+          center: ABOUT_STORE_LOCATION,
+          zoom: 15,
+          disableDefaultUI: true,
+          clickableIcons: false,
+          keyboardShortcuts: false,
+          gestureHandling: "none",
+        });
+
+        new maps.Marker({
+          position: ABOUT_STORE_LOCATION,
+          map,
+          title: "Pizza Peppers",
+        });
+
+        window.__ppWarmAboutMap = map;
+      } catch (err) {
+        console.warn("[maps] warmup map failed", err);
+      }
+    };
+
+    const markLoaded = () => {
+      setMapsLoaded(true);
+
+      try {
+        const runWarm = () => warmGoogleMapOnce();
+        if (typeof window.requestIdleCallback === "function") {
+          window.requestIdleCallback(runWarm, { timeout: 1200 });
+        } else {
+          setTimeout(runWarm, 250);
+        }
+      } catch {}
+    };
 
     if (!key) {
       console.warn("[maps] Missing VITE_GOOGLE_MAPS_API_KEY (maps will stay disabled).");
@@ -5912,7 +6122,7 @@ function useGoogleMaps() {
         } catch {}
       } else {
         if (window.google?.maps) {
-          setMapsLoaded(true);
+          markLoaded();
         } else {
           existing.addEventListener("load", markLoaded, { once: true });
         }
@@ -5924,6 +6134,9 @@ function useGoogleMaps() {
     script.id = scriptId;
     script.async = true;
     script.defer = true;
+    try {
+      script.fetchPriority = "high";
+    } catch {}
     script.src = desiredSrc;
     script.onload = markLoaded;
     script.onerror = () => {
@@ -10156,12 +10369,8 @@ function OrderInfoPanel({
   const [addrPredLoading, setAddrPredLoading] = React.useState(false);
   const placesAutoSvcRef = React.useRef(null);
   const placesDetailsSvcRef = React.useRef(null);
-  const zoneKeysBySpecificity = React.useMemo(() => {
-    // longest first (so "reynella east" wins over "reynella")
-    return Object.keys(DELIVERY_ZONES).sort((a, b) => b.length - a.length);
-  }, []);
   const applyDeliveryAddressFromText = React.useCallback(
-    (raw) => {
+    (raw, components = []) => {
       const cleaned = normalizeAddressText(raw);
       if (!cleaned) {
         setOrderDeliveryFee(0);
@@ -10169,24 +10378,22 @@ function OrderInfoPanel({
         return;
       }
 
-      const lower = cleaned.toLowerCase();
-      const matchedKey = zoneKeysBySpecificity.find((k) => lower.includes(k));
-      if (matchedKey) {
-        setOrderAddress(cleaned);
-        setOrderDeliveryFee(DELIVERY_ZONES[matchedKey]);
-        setOrderAddressError("");
-      } else {
+      if (!hasDeliverableStreetAddress(cleaned, components)) {
         setOrderAddress(cleaned);
         setOrderDeliveryFee(0);
-        setOrderAddressError("Sorry, we do not deliver to this suburb.");
+        setOrderAddressError(
+          "Please enter a full street address with street number and street name.",
+        );
+        return;
       }
+
+      const resolved = resolveDeliveryFromAddress(cleaned, components);
+
+      setOrderAddress(cleaned);
+      setOrderDeliveryFee(resolved.ok ? resolved.fee : 0);
+      setOrderAddressError(resolved.ok ? "" : resolved.error);
     },
-    [
-      zoneKeysBySpecificity,
-      setOrderAddress,
-      setOrderDeliveryFee,
-      setOrderAddressError,
-    ],
+    [setOrderAddress, setOrderDeliveryFee, setOrderAddressError],
   );
   const [voucherCode, setVoucherCode] = React.useState("");
   const addressInputRef = useRef(null);
@@ -10278,7 +10485,7 @@ function OrderInfoPanel({
           setOrderAddress(normalizeAddressText(formatted));
           setAddrPredOpen(false);
           setAddrPredictions([]);
-          applyDeliveryAddressFromText(formatted);
+          applyDeliveryAddressFromText(formatted, place.address_components || []);
         },
       );
     },
@@ -10930,29 +11137,7 @@ function OrderInfoPanel({
             return;
           }
 
-          const suburbComponent = components.find((c) =>
-            (c.types || []).includes("locality"),
-          );
-
-          if (suburbComponent) {
-            const suburbName =
-              getLongNameFromComponent(suburbComponent).toLowerCase();
-
-            setOrderAddress(formatted);
-
-            if (DELIVERY_ZONES[suburbName]) {
-              setOrderDeliveryFee(DELIVERY_ZONES[suburbName]);
-              setOrderAddressError("");
-            } else {
-              setOrderDeliveryFee(0);
-              setOrderAddressError("Sorry, we do not deliver to this suburb.");
-            }
-          } else {
-            setOrderAddressError(
-              "Could not determine suburb. Please try a different address.",
-            );
-            setOrderDeliveryFee(0);
-          }
+          applyDeliveryAddressFromText(formatted, components);
         });
       } catch (err) {
         console.warn("[maps][places] autocomplete init failed:", err);
@@ -13838,11 +14023,6 @@ function TermsPage() {
   };
   const pStyle = { lineHeight: "1.7", color: "var(--text-medium)" };
   const listStyle = { ...pStyle, paddingLeft: "1.5rem" };
-  const tocLinkStyle = {
-    color: "var(--brand-pink)",
-    textDecoration: "none",
-    fontWeight: "500",
-  };
 
   const tocItems = [
     "Registration",
@@ -13879,31 +14059,16 @@ function TermsPage() {
 
       {/* --- TABLE OF CONTENTS --- */}
       <div
-        className="info-box"
+        className="info-box pp-termsToc"
         style={{ marginBottom: "3rem", padding: "1.5rem" }}
       >
-        <h4
-          style={{
-            fontFamily: "var(--font-heading)",
-            color: "var(--brand-neon-green)",
-            marginTop: 0,
-            marginBottom: "1rem",
-            textAlign: "center",
-          }}
-        >
+        <h4 className="pp-termsToc__title">
           Table of Contents
         </h4>
-        <ul
-          style={{
-            paddingLeft: "1.5rem",
-            margin: 0,
-            columns: 2,
-            listStyleType: "none",
-          }}
-        >
+        <ul className="pp-termsToc__list">
           {tocItems.map((item, index) => (
-            <li key={item} style={{ marginBottom: "0.75rem" }}>
-              <a href={`#${generateId(item)}`} style={tocLinkStyle}>
+            <li key={item} className="pp-termsToc__item">
+              <a href={`#${generateId(item)}`} className="pp-termsToc__link">
                 {index < 12 ? `${index + 1}. ` : ""}
                 {item}
               </a>
@@ -17280,6 +17445,8 @@ function AboutPanel({ isMapsLoaded, onOpenTerms }) {
   const [pcValue, setPcValue] = useState("");
   const [pcResult, setPcResult] = useState(null);
   const mapRef = useRef(null);
+  const aboutMapInstanceRef = useRef(null);
+  const aboutMapMarkerRef = useRef(null);
   const [openNowMain, setOpenNowMain] = React.useState(isOpenNowAdelaide());
   React.useEffect(() => {
     const t = setInterval(() => setOpenNowMain(isOpenNowAdelaide()), 60 * 1000);
@@ -17295,120 +17462,121 @@ function AboutPanel({ isMapsLoaded, onOpenTerms }) {
     const maps = w.google?.maps;
     if (!maps) return;
 
-    const map = new maps.Map(el, {
-      center: ABOUT_STORE_LOCATION,
-      zoom: 15,
-      disableDefaultUI: true,
-      keyboardShortcuts: false,
-      clickableIcons: false,
-      gestureHandling: "cooperative",
-      styles: [
-        {
-          featureType: "all",
-          elementType: "geometry",
-          stylers: [{ color: "#242f3e" }],
-        },
-        {
-          featureType: "all",
-          elementType: "labels.text.stroke",
-          stylers: [{ lightness: -80 }],
-        },
-        {
-          featureType: "administrative",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#746855" }],
-        },
-        {
-          featureType: "administrative.locality",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }],
-        },
-        {
-          featureType: "poi",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }],
-        },
-        {
-          featureType: "poi.park",
-          elementType: "geometry",
-          stylers: [{ color: "#263c3f" }],
-        },
-        {
-          featureType: "poi.park",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#6b9a76" }],
-        },
-        {
-          featureType: "road",
-          elementType: "geometry.fill",
-          stylers: [{ color: "#2b3544" }],
-        },
-        {
-          featureType: "road",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#9ca5b3" }],
-        },
-        {
-          featureType: "road.arterial",
-          elementType: "geometry",
-          stylers: [{ color: "#374151" }],
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry",
-          stylers: [{ color: "#746855" }],
-        },
-        {
-          featureType: "road.highway",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#f3d19c" }],
-        },
-        {
-          featureType: "road.local",
-          elementType: "geometry",
-          stylers: [{ color: "#374151" }],
-        },
-        {
-          featureType: "transit",
-          elementType: "geometry",
-          stylers: [{ color: "#2f3948" }],
-        },
-        {
-          featureType: "transit.station",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#d59563" }],
-        },
-        {
-          featureType: "water",
-          elementType: "geometry",
-          stylers: [{ color: "#17263c" }],
-        },
-        {
-          featureType: "water",
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#515c6d" }],
-        },
-        {
-          featureType: "water",
-          elementType: "labels.text.stroke",
-          stylers: [{ lightness: -20 }],
-        },
-      ],
-    });
-    const marker = new maps.Marker({
-      position: ABOUT_STORE_LOCATION,
-      map,
-      title: "Pizza Peppers",
-    });
+    if (!aboutMapInstanceRef.current) {
+      aboutMapInstanceRef.current = new maps.Map(el, {
+        center: ABOUT_STORE_LOCATION,
+        zoom: 15,
+        disableDefaultUI: true,
+        clickableIcons: false,
+        keyboardShortcuts: false,
+        gestureHandling: "cooperative",
+        styles: [
+          {
+            featureType: "all",
+            elementType: "geometry",
+            stylers: [{ color: "#242f3e" }],
+          },
+          {
+            featureType: "all",
+            elementType: "labels.text.stroke",
+            stylers: [{ lightness: -80 }],
+          },
+          {
+            featureType: "administrative",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#746855" }],
+          },
+          {
+            featureType: "administrative.locality",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#d59563" }],
+          },
+          {
+            featureType: "poi",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#d59563" }],
+          },
+          {
+            featureType: "poi.park",
+            elementType: "geometry",
+            stylers: [{ color: "#263c3f" }],
+          },
+          {
+            featureType: "poi.park",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#6b9a76" }],
+          },
+          {
+            featureType: "road",
+            elementType: "geometry",
+            stylers: [{ color: "#38414e" }],
+          },
+          {
+            featureType: "road",
+            elementType: "geometry.stroke",
+            stylers: [{ color: "#212a37" }],
+          },
+          {
+            featureType: "road",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#9ca5b3" }],
+          },
+          {
+            featureType: "road.highway",
+            elementType: "geometry",
+            stylers: [{ color: "#746855" }],
+          },
+          {
+            featureType: "road.highway",
+            elementType: "geometry.stroke",
+            stylers: [{ color: "#1f2835" }],
+          },
+          {
+            featureType: "road.highway",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#f3d19c" }],
+          },
+          {
+            featureType: "transit",
+            elementType: "geometry",
+            stylers: [{ color: "#2f3948" }],
+          },
+          {
+            featureType: "transit.station",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#d59563" }],
+          },
+          {
+            featureType: "water",
+            elementType: "geometry",
+            stylers: [{ color: "#17263c" }],
+          },
+          {
+            featureType: "water",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#515c6d" }],
+          },
+          {
+            featureType: "water",
+            elementType: "labels.text.stroke",
+            stylers: [{ lightness: -20 }],
+          },
+        ],
+      });
 
-    return () => {
-      try {
-        marker.setMap(null);
-      } catch {}
-      try {
-        maps.event.clearInstanceListeners(map);
-      } catch {}
-    };
+      aboutMapMarkerRef.current = new maps.Marker({
+        position: ABOUT_STORE_LOCATION,
+        map: aboutMapInstanceRef.current,
+        title: "Pizza Peppers",
+      });
+    } else {
+      aboutMapInstanceRef.current.setCenter(ABOUT_STORE_LOCATION);
+    }
+
+    try {
+      maps.event.trigger(aboutMapInstanceRef.current, "resize");
+      aboutMapInstanceRef.current.setCenter(ABOUT_STORE_LOCATION);
+    } catch {}
   }, [isMapsLoaded, currentView]);
 
   const onPcChange = (e) => {

@@ -900,24 +900,45 @@ def _load_menu_json():
     )
 
 
-def _normalize_to_minimal_catalog(payload: dict) -> dict:
+def _normalize_menu_payload(payload: dict) -> dict:
     """
-    Ensure outgoing shape is exactly { "data": { "categories": [...], "products": [...] } }.
+    Keep the outgoing shape as { "data": { ... } }, but preserve the menu fields
+    the frontend actually needs, including add-on data.
     """
-    if isinstance(payload, dict) and "data" in payload:
-        data = payload.get("data") or {}
-        if isinstance(data, dict) and "categories" in data and "products" in data:
-            return {"data": {"categories": data["categories"], "products": data["products"]}}
-    categories = payload.get("categories", []) if isinstance(payload, dict) else []
-    products = payload.get("products", []) if isinstance(payload, dict) else []
-    return {"data": {"categories": categories, "products": products}}
+    root = payload if isinstance(payload, dict) else {}
+    data = root.get("data") if isinstance(root.get("data"), dict) else root
+
+    out = {
+        "categories": data.get("categories", []) if isinstance(data, dict) else [],
+        "products": data.get("products", []) if isinstance(data, dict) else [],
+    }
+
+    # Preserve important optional menu sections when present
+    passthrough_keys = [
+        "option_lists",
+        "sauce_groups",
+        "settings",
+        "globals",
+        "delivery_zones",
+        "crusts",
+        "meta",
+        "store_hours",
+    ]
+
+    if isinstance(data, dict):
+        for key in passthrough_keys:
+            if key in data:
+                out[key] = data[key]
+
+    return {"data": out}
 
 
 @app.get("/public/menu")
 def public_menu():
     """
-    Frontend expects: GET /public/menu -> 200 + { data: { categories, products } }
-    Return helpful JSON on failure.
+    Frontend expects: GET /public/menu -> 200 + { data: { categories, products, ... } }
+    Return helpful JSON on failure, while preserving add-ons/modifier metadata like
+    option_lists and sauce_groups when present upstream.
     """
     try:
         # 1) Prefer live menu via POS_MENU_URL (key optional)
@@ -963,7 +984,7 @@ def public_menu():
                     return jsonify(upstream_error), 502
                 raise
 
-        out = _normalize_to_minimal_catalog(raw)
+        out = _normalize_menu_payload(raw)
         data = out.get("data", {})
         if not isinstance(data.get("categories"), list) or not isinstance(data.get("products"), list):
             return jsonify({"error": "Menu payload missing categories/products list."}), 500
