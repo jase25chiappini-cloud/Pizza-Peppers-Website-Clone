@@ -1,0 +1,4629 @@
+{
+    "data": {
+        "categories": [
+            {
+                "name": "Specials",
+                "ref": "SPECIALS",
+                "type": "meal"
+            },
+            {
+                "has_crusts": true,
+                "name": "Traditional Pizzas",
+                "ref": "TRADITIONAL_PIZZAS",
+                "type": "pizza"
+            },
+            {
+                "name": "Classic Pizzas",
+                "ref": "CLASSIC_PIZZAS",
+                "type": "pizza"
+            },
+            {
+                "name": "Gourmet Pizzas",
+                "ref": "GOURMET_PIZZAS",
+                "type": "pizza"
+            },
+            {
+                "name": "Mini Pizzas",
+                "ref": "MINI_PIZZAS",
+                "type": "pizza"
+            },
+            {
+                "name": "Calzone",
+                "ref": "CALZONE",
+                "sauceGroupRef": "CALZONE_SAUCE",
+                "sauceRequired": true,
+                "type": "pizza"
+            },
+            {
+                "name": "Breads",
+                "ref": "BREADS",
+                "type": "side"
+            },
+            {
+                "name": "Baked Potato",
+                "ref": "BAKED_POTATO",
+                "sauceGroupRef": "",
+                "sauceRequired": false,
+                "type": "side"
+            },
+            {
+                "name": "Sides",
+                "ref": "SIDES",
+                "sauceGroupRef": "",
+                "sauceRequired": false,
+                "type": "side"
+            },
+            {
+                "name": "Drinks",
+                "ref": "DRINKS",
+                "type": "side"
+            },
+            {
+                "name": "Desserts",
+                "ref": "DESSERTS",
+                "type": "side"
+            },
+            {
+                "name": "Pasta",
+                "ref": "PASTA",
+                "type": "side"
+            },
+            {
+                "name": "Tubs of Sauces & Condiments",
+                "ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "type": "side"
+            },
+            {
+                "name": "Merchandise",
+                "ref": "MERCHANDISE",
+                "type": "merchandise"
+            }
+        ],
+        "products": [
+            {
+                "allow_gf": false,
+                "allow_half": true,
+                "bundle": {
+                    "slots": [
+                        {
+                            "allowed_sizes": [
+                                "Large"
+                            ],
+                            "category_refs": [
+                                "TRADITIONAL_PIZZAS",
+                                "CLASSIC_PIZZAS",
+                                "GOURMET_PIZZAS"
+                            ],
+                            "qty": 2,
+                            "slot": "pizza"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "BREADS"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "DRINKS"
+                            ],
+                            "excluded_product_refs": [
+                                "p_COKE_375ML_89",
+                                "p_COKE_ZERO_375ML_90",
+                                "p_WATER_600ML_96",
+                                "p_APPLE_JUICE_250ML_98",
+                                "p_ORANGE_JUICE_250ML_99",
+                                "p_TROPICAL_JUICE_250ML_100",
+                                "p_LIPTON_PEACH_ICE_TEA_101"
+                            ],
+                            "qty": 1,
+                            "slot": "drink"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "DESSERTS"
+                            ],
+                            "qty": 1,
+                            "slot": "dessert"
+                        }
+                    ]
+                },
+                "category_ref": "SPECIALS",
+                "description": "2 large pizzas, garlic bread, 1.25l soft drink & tiramisu/pancake/chocolate mousse/banoffee pie.",
+                "enabled": true,
+                "id": "p_DESSERT_COMBO_MEAL_DEAL_0",
+                "ingredients": [
+                    "2 large pizzas",
+                    "garlic bread",
+                    "1.25l soft drink & tiramisu/pancake/chocolate mousse/banoffee pie."
+                ],
+                "name": "Dessert Combo Meal Deal",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 57.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": true,
+                "bundle": {
+                    "slots": [
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "TRADITIONAL_PIZZAS",
+                                "CLASSIC_PIZZAS",
+                                "GOURMET_PIZZAS"
+                            ],
+                            "qty": 2,
+                            "slot": "pizza"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "BREADS"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "DRINKS"
+                            ],
+                            "excluded_product_refs": [
+                                "p_APPLE_JUICE_250ML_98",
+                                "p_COKE_375ML_89",
+                                "p_COKE_ZERO_375ML_90",
+                                "p_LIPTON_PEACH_ICE_TEA_101",
+                                "p_ORANGE_JUICE_250ML_99",
+                                "p_TROPICAL_JUICE_250ML_100",
+                                "p_WATER_600ML_96"
+                            ],
+                            "qty": 1,
+                            "slot": "drink"
+                        }
+                    ]
+                },
+                "category_ref": "SPECIALS",
+                "description": "2 x Regular Pizza, 1 Garlic Bread, 1 1.25L Drink.",
+                "enabled": true,
+                "id": "p_DINNER_FOR_TWO_1",
+                "ingredients": [
+                    "2 x Regular Pizza",
+                    "1 Garlic Bread",
+                    "1 1.25L Drink."
+                ],
+                "kitchen_alert": false,
+                "kitchen_alert_msg": "",
+                "name": "Dinner For Two",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "No Size",
+                        "price": 36.5
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 36.5
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "bundle": {
+                    "slots": [
+                        {
+                            "allowed_sizes": [
+                                "Large"
+                            ],
+                            "category_refs": [
+                                "TRADITIONAL_PIZZAS",
+                                "CLASSIC_PIZZAS",
+                                "GOURMET_PIZZAS"
+                            ],
+                            "qty": 2,
+                            "slot": "pizza"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "BREADS"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "DRINKS"
+                            ],
+                            "excluded_product_refs": [
+                                "p_COKE_375ML_89",
+                                "p_COKE_ZERO_375ML_90",
+                                "p_WATER_600ML_96",
+                                "p_APPLE_JUICE_250ML_98",
+                                "p_ORANGE_JUICE_250ML_99",
+                                "p_TROPICAL_JUICE_250ML_100",
+                                "p_LIPTON_PEACH_ICE_TEA_101"
+                            ],
+                            "qty": 1,
+                            "slot": "drink"
+                        }
+                    ]
+                },
+                "category_ref": "SPECIALS",
+                "description": "2 x Large Pizzas, 1 x Garlic Bread, 1 x 1.25L Drink.",
+                "enabled": true,
+                "id": "p_DOUBLE_TROUBLE_2",
+                "ingredients": [
+                    "2 x Large Pizzas",
+                    "1 x Garlic Bread",
+                    "1 x 1.25L Drink."
+                ],
+                "name": "Double Trouble",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 49.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": true,
+                "bundle": {
+                    "slots": [
+                        {
+                            "allowed_sizes": [
+                                "Large"
+                            ],
+                            "category_refs": [
+                                "TRADITIONAL_PIZZAS",
+                                "CLASSIC_PIZZAS",
+                                "GOURMET_PIZZAS"
+                            ],
+                            "qty": 3,
+                            "slot": "pizza"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "BREADS"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "DRINKS"
+                            ],
+                            "excluded_product_refs": [
+                                "p_COKE_375ML_89",
+                                "p_COKE_ZERO_375ML_90",
+                                "p_WATER_600ML_96",
+                                "p_APPLE_JUICE_250ML_98",
+                                "p_ORANGE_JUICE_250ML_99",
+                                "p_TROPICAL_JUICE_250ML_100",
+                                "p_LIPTON_PEACH_ICE_TEA_101"
+                            ],
+                            "qty": 1,
+                            "slot": "drink"
+                        }
+                    ]
+                },
+                "category_ref": "SPECIALS",
+                "description": "3 x Large Pizzas, 1 x Garlic Bread, 1 x 1.25L Drink.",
+                "enabled": true,
+                "id": "p_TRIPLE_MEAL_DEAL_3",
+                "ingredients": [
+                    "3 x Large Pizzas",
+                    "1 x Garlic Bread",
+                    "1 x 1.25L Drink."
+                ],
+                "name": "Triple Meal Deal",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 66.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": true,
+                "bundle": {
+                    "slots": [
+                        {
+                            "allowed_sizes": [
+                                "Family"
+                            ],
+                            "category_refs": [
+                                "TRADITIONAL_PIZZAS",
+                                "CLASSIC_PIZZAS",
+                                "GOURMET_PIZZAS"
+                            ],
+                            "qty": 2,
+                            "slot": "pizza"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "BREADS"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "DRINKS"
+                            ],
+                            "excluded_product_refs": [
+                                "p_COKE_375ML_89",
+                                "p_COKE_ZERO_375ML_90",
+                                "p_WATER_600ML_96",
+                                "p_APPLE_JUICE_250ML_98",
+                                "p_ORANGE_JUICE_250ML_99",
+                                "p_TROPICAL_JUICE_250ML_100",
+                                "p_LIPTON_PEACH_ICE_TEA_101"
+                            ],
+                            "qty": 1,
+                            "slot": "drink"
+                        }
+                    ]
+                },
+                "category_ref": "SPECIALS",
+                "description": "2 x Family Pizzas, 1 x Garlic Bread, 1 x 1.25L Drink.",
+                "enabled": true,
+                "id": "p_FAMILY_MEAL_DEAL_4",
+                "ingredients": [
+                    "2 x Family Pizzas",
+                    "1 x Garlic Bread",
+                    "1 x 1.25L Drink."
+                ],
+                "name": "Family Meal Deal",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 57.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": true,
+                "bundle": {
+                    "slots": [
+                        {
+                            "allowed_sizes": [
+                                "Party"
+                            ],
+                            "category_refs": [
+                                "TRADITIONAL_PIZZAS",
+                                "CLASSIC_PIZZAS",
+                                "GOURMET_PIZZAS"
+                            ],
+                            "qty": 2,
+                            "slot": "pizza"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "BREADS"
+                            ],
+                            "qty": 2,
+                            "slot": "side"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "DRINKS"
+                            ],
+                            "excluded_product_refs": [
+                                "p_COKE_375ML_89",
+                                "p_COKE_ZERO_375ML_90",
+                                "p_WATER_600ML_96",
+                                "p_APPLE_JUICE_250ML_98",
+                                "p_ORANGE_JUICE_250ML_99",
+                                "p_TROPICAL_JUICE_250ML_100",
+                                "p_LIPTON_PEACH_ICE_TEA_101"
+                            ],
+                            "qty": 2,
+                            "slot": "drink"
+                        }
+                    ]
+                },
+                "category_ref": "SPECIALS",
+                "description": "2 x Party Pizzas, 2 x Garlic Bread, 2 x 1.25L Drink.",
+                "enabled": true,
+                "id": "p_PARTY_MEAL_DEAL_5",
+                "ingredients": [
+                    "2 x Party Pizzas",
+                    "2 x Garlic Bread",
+                    "2 x 1.25L Drink."
+                ],
+                "name": "Party Meal Deal",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 84.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": true,
+                "bundle": {
+                    "slots": [
+                        {
+                            "allowed_sizes": [
+                                "Large"
+                            ],
+                            "category_refs": [
+                                "TRADITIONAL_PIZZAS",
+                                "CLASSIC_PIZZAS",
+                                "GOURMET_PIZZAS"
+                            ],
+                            "qty": 2,
+                            "slot": "pizza"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "BREADS"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "PASTA"
+                            ],
+                            "excluded_product_refs": [
+                                "p_HOMEMADE_SPAGHETTI_BOLOGNESE_106"
+                            ],
+                            "qty": 1,
+                            "slot": "pasta"
+                        }
+                    ]
+                },
+                "category_ref": "SPECIALS",
+                "description": "2 x Large Pizzas, 1 x Garlic Bread, Lasagna.",
+                "enabled": true,
+                "id": "p_PICK_A_BOX_1_6",
+                "ingredients": [
+                    "2 x Large Pizzas",
+                    "1 x Garlic Bread",
+                    "Lasagna."
+                ],
+                "name": "Pick A Box 1",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 55.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": true,
+                "bundle": {
+                    "slots": [
+                        {
+                            "allowed_sizes": [
+                                "Large"
+                            ],
+                            "category_refs": [
+                                "TRADITIONAL_PIZZAS",
+                                "CLASSIC_PIZZAS",
+                                "GOURMET_PIZZAS"
+                            ],
+                            "qty": 2,
+                            "slot": "pizza"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "BREADS"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "SIDES"
+                            ],
+                            "excluded_product_refs": [
+                                "p_CHICKEN_NUGGETS_85",
+                                "p_CHICKEN_WINGETTES_84",
+                                "p_RIBS_86",
+                                "p_WEDGES_88"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        }
+                    ]
+                },
+                "category_ref": "SPECIALS",
+                "description": "2 x Large Pizzas, 1 x Garlic Bread, 1 X Potato Skins.",
+                "enabled": true,
+                "id": "p_PICK_A_BOX_2_7",
+                "ingredients": [
+                    "2 x Large Pizzas",
+                    "1 x Garlic Bread",
+                    "1 X Potato Skins."
+                ],
+                "name": "Pick A Box 2",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 55.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": true,
+                "bundle": {
+                    "slots": [
+                        {
+                            "allowed_sizes": [
+                                "Large"
+                            ],
+                            "category_refs": [
+                                "TRADITIONAL_PIZZAS",
+                                "CLASSIC_PIZZAS",
+                                "GOURMET_PIZZAS"
+                            ],
+                            "qty": 2,
+                            "slot": "pizza"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "BREADS"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "SIDES"
+                            ],
+                            "excluded_product_refs": [
+                                "p_CHICKEN_NUGGETS_85",
+                                "p_POTATO_SKINS_87",
+                                "p_RIBS_86",
+                                "p_WEDGES_88"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        }
+                    ]
+                },
+                "category_ref": "SPECIALS",
+                "description": "2 x Large Pizzas, 1 x Garlic Bread, 12 BBQ Wingettes.",
+                "enabled": true,
+                "id": "p_PICK_A_BOX_3_8",
+                "ingredients": [
+                    "2 x Large Pizzas",
+                    "1 x Garlic Bread",
+                    "12 BBQ Wingettes."
+                ],
+                "name": "Pick A Box 3",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 55.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": true,
+                "bundle": {
+                    "slots": [
+                        {
+                            "allowed_sizes": [
+                                "Large"
+                            ],
+                            "category_refs": [
+                                "TRADITIONAL_PIZZAS",
+                                "CLASSIC_PIZZAS",
+                                "GOURMET_PIZZAS"
+                            ],
+                            "qty": 2,
+                            "slot": "pizza"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "BREADS"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "SIDES"
+                            ],
+                            "excluded_product_refs": [
+                                "p_CHICKEN_NUGGETS_85",
+                                "p_CHICKEN_WINGETTES_84",
+                                "p_POTATO_SKINS_87",
+                                "p_RIBS_86"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        }
+                    ]
+                },
+                "category_ref": "SPECIALS",
+                "description": "2 x Large Pizzas, 1 x Garlic Bread, Wedges.",
+                "enabled": true,
+                "id": "p_PICK_A_BOX_4_9",
+                "ingredients": [
+                    "2 x Large Pizzas",
+                    "1 x Garlic Bread",
+                    "Wedges."
+                ],
+                "name": "Pick A Box 4",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 55.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "bundle": {
+                    "slots": [
+                        {
+                            "allowed_sizes": [
+                                "Mini"
+                            ],
+                            "category_refs": [
+                                "MINI_PIZZAS"
+                            ],
+                            "product_refs": [],
+                            "qty": 1,
+                            "slot": "pizza"
+                        },
+                        {
+                            "category_refs": [
+                                "SIDES"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        },
+                        {
+                            "baseline": {
+                                "productNameContains": "250ml"
+                            },
+                            "category_refs": [
+                                "DRINKS"
+                            ],
+                            "qty": 1,
+                            "slot": "drink"
+                        }
+                    ]
+                },
+                "category_ref": "SPECIALS",
+                "description": "Any Mini Pizza, 5 Chicken Nuggets & A Small Juice.",
+                "enabled": true,
+                "id": "p_KIDS_MEAL_10",
+                "ingredients": [
+                    "Any Mini Pizza",
+                    "5 Chicken Nuggets & A Small Juice."
+                ],
+                "name": "Kids Meal",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 15.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "bundle": {
+                    "slots": [
+                        {
+                            "allowed_sizes": [
+                                "Large"
+                            ],
+                            "category_refs": [
+                                "TRADITIONAL_PIZZAS",
+                                "CLASSIC_PIZZAS",
+                                "GOURMET_PIZZAS"
+                            ],
+                            "qty": 1,
+                            "slot": "pizza"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "BREADS"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "DRINKS"
+                            ],
+                            "excluded_product_refs": [
+                                "p_COKE_375ML_89",
+                                "p_COKE_ZERO_375ML_90",
+                                "p_WATER_600ML_96",
+                                "p_APPLE_JUICE_250ML_98",
+                                "p_ORANGE_JUICE_250ML_99",
+                                "p_TROPICAL_JUICE_250ML_100",
+                                "p_LIPTON_PEACH_ICE_TEA_101"
+                            ],
+                            "qty": 1,
+                            "slot": "drink"
+                        }
+                    ]
+                },
+                "category_ref": "SPECIALS",
+                "description": "Large Pizza, 1 Garlic Bread & 1 X 1.25L Soft Drink.",
+                "enabled": true,
+                "id": "p_JUST_FOR_ONE_11",
+                "ingredients": [
+                    "Large Pizza",
+                    "1 Garlic Bread & 1 X 1.25L Soft Drink."
+                ],
+                "name": "Just For One",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 28.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "bundle": {
+                    "slots": [
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "CALZONE"
+                            ],
+                            "qty": 2,
+                            "slot": "calzone"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "BREADS"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "DRINKS"
+                            ],
+                            "excluded_product_refs": [
+                                "p_COKE_375ML_89",
+                                "p_COKE_ZERO_375ML_90",
+                                "p_WATER_600ML_96",
+                                "p_APPLE_JUICE_250ML_98",
+                                "p_ORANGE_JUICE_250ML_99",
+                                "p_TROPICAL_JUICE_250ML_100",
+                                "p_LIPTON_PEACH_ICE_TEA_101"
+                            ],
+                            "qty": 1,
+                            "slot": "drink"
+                        }
+                    ]
+                },
+                "category_ref": "SPECIALS",
+                "description": "Any 2 Calzones, 1 Garlic Bread & 1.25L Soft Drink.",
+                "enabled": true,
+                "id": "p_CALZONE_MEAL_DEAL_12",
+                "ingredients": [
+                    "Any 2 Calzones",
+                    "1 Garlic Bread & 1.25L Soft Drink."
+                ],
+                "name": "Calzone Meal Deal",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 52.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": true,
+                "bundle": {
+                    "slots": [
+                        {
+                            "allowed_sizes": [
+                                "Large"
+                            ],
+                            "category_refs": [
+                                "TRADITIONAL_PIZZAS",
+                                "CLASSIC_PIZZAS",
+                                "GOURMET_PIZZAS"
+                            ],
+                            "qty": 1,
+                            "slot": "pizza"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "CALZONE"
+                            ],
+                            "qty": 1,
+                            "slot": "calzone"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "BREADS"
+                            ],
+                            "qty": 1,
+                            "slot": "side"
+                        },
+                        {
+                            "allowed_sizes": [],
+                            "category_refs": [
+                                "DRINKS"
+                            ],
+                            "excluded_product_refs": [
+                                "p_COKE_375ML_89",
+                                "p_COKE_ZERO_375ML_90",
+                                "p_WATER_600ML_96",
+                                "p_APPLE_JUICE_250ML_98",
+                                "p_ORANGE_JUICE_250ML_99",
+                                "p_TROPICAL_JUICE_250ML_100",
+                                "p_LIPTON_PEACH_ICE_TEA_101"
+                            ],
+                            "qty": 1,
+                            "slot": "drink"
+                        }
+                    ]
+                },
+                "category_ref": "SPECIALS",
+                "description": "1x Large Pizza, 1x Calzone, 1x Garlic Bread & 1x 1.25L Soft Drink.",
+                "enabled": true,
+                "id": "p_PIZZA__CALZONE_MEAL_DEAL_13",
+                "ingredients": [
+                    "1x Large Pizza",
+                    "1x Calzone",
+                    "1x Garlic Bread & 1x 1.25L Soft Drink."
+                ],
+                "name": "Pizza & Calzone Meal Deal",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 54.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "MERCHANDISE",
+                "description": "Stylish Black Legend Cap with \u201cPizza Peppers\u201d Logo, Perfect for Our Customers !!!.",
+                "enabled": true,
+                "id": "p_PIZZA_PEPPERS_HAT_14",
+                "ingredients": [],
+                "name": "Pizza Peppers Hat",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 21.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "cheese, salami, ham, olives, fresh mushroom",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_ITALIAN_15",
+                "ingredients": [
+                    "cheese",
+                    "salami",
+                    "ham",
+                    "olives",
+                    "fresh mushroom"
+                ],
+                "name": "Italian",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "fresh tomato, garlic, oregano, mozzarella cheese, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_MARGHERITA_16",
+                "ingredients": [
+                    "fresh tomato",
+                    "garlic",
+                    "oregano",
+                    "mozzarella cheese",
+                    "tomato base"
+                ],
+                "name": "Margherita",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "garlic, oregano, mozzarella cheese, tomato base, double pepperoni",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_CHEESY_PEPPERONI_17",
+                "ingredients": [
+                    "garlic",
+                    "oregano",
+                    "mozzarella cheese",
+                    "tomato base",
+                    "double pepperoni"
+                ],
+                "name": "Cheesy Pepperoni",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "fresh tomato, bacon, mozzarella cheese, bbq sauce base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_AUSSIE_BOB_18",
+                "ingredients": [
+                    "fresh tomato",
+                    "bacon",
+                    "mozzarella cheese",
+                    "bbq sauce base"
+                ],
+                "name": "Aussie Bob",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "ham, double mozzarella cheese, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_AUSTRALIAN_19",
+                "ingredients": [
+                    "ham",
+                    "double mozzarella cheese",
+                    "tomato base"
+                ],
+                "name": "Australian",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "pineapple, capsicum, onion, olives, mozzarella cheese, fresh mushroom, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_VEGETARIAN_20",
+                "ingredients": [
+                    "pineapple",
+                    "capsicum",
+                    "onion",
+                    "olives",
+                    "mozzarella cheese",
+                    "fresh mushroom",
+                    "tomato base"
+                ],
+                "name": "Vegetarian",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "bacon, mozzarella cheese, swirl of aioli, ground beef, bbq sauce base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_DOUBLE_BURGER_BITE_21",
+                "ingredients": [
+                    "bacon",
+                    "mozzarella cheese",
+                    "swirl of aioli",
+                    "ground beef",
+                    "bbq sauce base"
+                ],
+                "name": "Double Burger Bite",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "salami, pepperoni, bacon, mozzarella cheese, ham, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_MEATLOVERS_22",
+                "ingredients": [
+                    "salami",
+                    "pepperoni",
+                    "bacon",
+                    "mozzarella cheese",
+                    "ham",
+                    "tomato base"
+                ],
+                "name": "Meatlovers",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "capsicum, pepperoni, mozzarella cheese, ham, jalapeno peppers, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_MEXICAN_23",
+                "ingredients": [
+                    "capsicum",
+                    "pepperoni",
+                    "mozzarella cheese",
+                    "ham",
+                    "jalapeno peppers",
+                    "tomato base"
+                ],
+                "name": "Mexican",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "fresh mushroom, salami, anchovies, capsicum, kalamata olives, mozzarella cheese, ham, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_SPECIAL_24",
+                "ingredients": [
+                    "fresh mushroom",
+                    "salami",
+                    "anchovies",
+                    "capsicum",
+                    "kalamata olives",
+                    "mozzarella cheese",
+                    "ham",
+                    "tomato base"
+                ],
+                "name": "Special",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "pineapple, capsicum, onion, bacon, mozzarella cheese, fresh mushroom, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_DELUXE_25",
+                "ingredients": [
+                    "pineapple",
+                    "capsicum",
+                    "onion",
+                    "bacon",
+                    "mozzarella cheese",
+                    "fresh mushroom",
+                    "tomato base"
+                ],
+                "name": "Deluxe",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "mozzarella cheese, salami, ham, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_HAM__SALAMI_26",
+                "ingredients": [
+                    "mozzarella cheese",
+                    "salami",
+                    "ham",
+                    "tomato base"
+                ],
+                "name": "Ham & Salami",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "pineapple, mozzarella cheese, ham, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_HAM__PINEAPPLE_27",
+                "ingredients": [
+                    "pineapple",
+                    "mozzarella cheese",
+                    "ham",
+                    "tomato base"
+                ],
+                "name": "Ham & Pineapple",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "bacon, mozzarella cheese, ham, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_HAM__BACON_28",
+                "ingredients": [
+                    "bacon",
+                    "mozzarella cheese",
+                    "ham",
+                    "tomato base"
+                ],
+                "name": "Ham & Bacon",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "mozzarella cheese, ham, fresh mushroom, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_HAM__MUSHROOM_29",
+                "ingredients": [
+                    "mozzarella cheese",
+                    "ham",
+                    "fresh mushroom",
+                    "tomato base"
+                ],
+                "name": "Ham & Mushroom",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "mozzarella cheese, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_CHEESE_PIZZA_30",
+                "ingredients": [
+                    "mozzarella cheese",
+                    "tomato base"
+                ],
+                "name": "Cheese Pizza",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "TRADITIONAL_PIZZAS",
+                "description": "mozzarella cheese, garlic butter base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_GARLIC_BUTTER__CHEESE_31",
+                "ingredients": [
+                    "mozzarella cheese",
+                    "garlic butter base"
+                ],
+                "name": "Garlic Butter & Cheese",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 15.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 20.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 27.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 33.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "CLASSIC_PIZZAS",
+                "description": "Bbq sauce, mozzarella cheese, onions, fresh tomato, homemade beef, pickles, swirl of tomato sauce & mustard",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_THE_CHEESE_BURGER_32",
+                "ingredients": [
+                    "Bbq sauce",
+                    "mozzarella cheese",
+                    "onions",
+                    "fresh tomato",
+                    "homemade beef",
+                    "pickles",
+                    "swirl of tomato sauce & mustard"
+                ],
+                "name": "The Cheese Burger",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 17.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 22.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 29.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 37.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "CLASSIC_PIZZAS",
+                "description": "mozzarella cheese, bocconcini cheese, fresh tomato, fresh basil, garlic granules, oregano",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_THE_NEAPOLITAN_33",
+                "ingredients": [
+                    "mozzarella cheese",
+                    "bocconcini cheese",
+                    "fresh tomato",
+                    "fresh basil",
+                    "garlic granules",
+                    "oregano"
+                ],
+                "name": "The Neapolitan",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 17.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 22.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 29.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 37.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "CLASSIC_PIZZAS",
+                "description": "bocconcini cheese, garlic, feta cheese, oregano, mozzarella cheese, shaved parmesan cheese, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_QUATTRO_FORMAGGI_34",
+                "ingredients": [
+                    "bocconcini cheese",
+                    "garlic",
+                    "feta cheese",
+                    "oregano",
+                    "mozzarella cheese",
+                    "shaved parmesan cheese",
+                    "tomato base"
+                ],
+                "name": "Quattro Formaggi",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 17.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 22.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 29.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 37.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "CLASSIC_PIZZAS",
+                "description": "bocconcini cheese, fresh tomato, garlic, oregano, kalamata olives, mozzarella cheese, fire roasted peppers, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_MEGA_MARGHERITA_35",
+                "ingredients": [
+                    "bocconcini cheese",
+                    "fresh tomato",
+                    "garlic",
+                    "oregano",
+                    "kalamata olives",
+                    "mozzarella cheese",
+                    "fire roasted peppers",
+                    "tomato base"
+                ],
+                "name": "Mega Margherita",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 17.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 22.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 29.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 37.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "CLASSIC_PIZZAS",
+                "description": "capsicum, onion, bacon, mozzarella cheese, roasted chicken, bbq sauce base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_BBQ_ROAST_CHICKEN_36",
+                "ingredients": [
+                    "capsicum",
+                    "onion",
+                    "bacon",
+                    "mozzarella cheese",
+                    "roasted chicken",
+                    "bbq sauce base"
+                ],
+                "name": "BBQ Roast Chicken",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 17.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 22.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 29.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 37.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "CLASSIC_PIZZAS",
+                "description": "pineapple, mozzarella cheese, roasted chicken, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_CHICKEN__PINEAPPLE_37",
+                "ingredients": [
+                    "pineapple",
+                    "mozzarella cheese",
+                    "roasted chicken",
+                    "tomato base"
+                ],
+                "name": "Chicken & Pineapple",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 17.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 22.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 29.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 37.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "CLASSIC_PIZZAS",
+                "description": "garlic, mozzarella cheese, mussels, prawns, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_SEAFOOD_38",
+                "ingredients": [
+                    "garlic",
+                    "mozzarella cheese",
+                    "mussels",
+                    "prawns",
+                    "tomato base"
+                ],
+                "name": "Seafood",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 17.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 22.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 29.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 37.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "CLASSIC_PIZZAS",
+                "description": "salami, pineapple, capsicum, onion, kalamata olives, mozzarella cheese, ham, fresh mushroom, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_SUPREME_39",
+                "ingredients": [
+                    "salami",
+                    "pineapple",
+                    "capsicum",
+                    "onion",
+                    "kalamata olives",
+                    "mozzarella cheese",
+                    "ham",
+                    "fresh mushroom",
+                    "tomato base"
+                ],
+                "name": "Supreme",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 17.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 22.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 29.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 37.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "CLASSIC_PIZZAS",
+                "description": "pineapple, capsicum, onion, pepperoni, bacon, mozzarella cheese, fresh mushroom, ground beef, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_BOSS_40",
+                "ingredients": [
+                    "pineapple",
+                    "capsicum",
+                    "onion",
+                    "pepperoni",
+                    "bacon",
+                    "mozzarella cheese",
+                    "fresh mushroom",
+                    "ground beef",
+                    "tomato base"
+                ],
+                "name": "Boss",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 17.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 22.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 29.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 37.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "CLASSIC_PIZZAS",
+                "description": "pineapple, diced bacon, pepperoni, kalamata olives, fresh mushroom, double mozzarella cheese, spicy tomato sauce base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_CHEFS_SPECIAL_41",
+                "ingredients": [
+                    "pineapple",
+                    "diced bacon",
+                    "pepperoni",
+                    "kalamata olives",
+                    "fresh mushroom",
+                    "double mozzarella cheese",
+                    "spicy tomato sauce base"
+                ],
+                "name": "Chef's Special",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 17.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 22.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 29.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 37.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "CLASSIC_PIZZAS",
+                "description": "fresh tomato, bacon, aioli, mozzarella cheese, ground beef, bbq sauce base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_BACON_DELUXE_42",
+                "ingredients": [
+                    "fresh tomato",
+                    "bacon",
+                    "aioli",
+                    "mozzarella cheese",
+                    "ground beef",
+                    "bbq sauce base"
+                ],
+                "name": "Bacon Deluxe",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 17.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 22.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 29.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 37.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "mozzarella cheese, baby spinach, fresh rocket, jalapeno, pumpkin, shaved parmesan cheese, smoked bacon rashers, fire roasted peppers, oven roasted chicken, tomato base, thinly sliced prosciutto",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_PEPPERS_SPECIAL_43",
+                "ingredients": [
+                    "mozzarella cheese",
+                    "baby spinach",
+                    "fresh rocket",
+                    "jalapeno",
+                    "pumpkin",
+                    "shaved parmesan cheese",
+                    "smoked bacon rashers",
+                    "fire roasted peppers",
+                    "oven roasted chicken",
+                    "tomato base",
+                    "thinly sliced prosciutto"
+                ],
+                "name": "Peppers Special",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "pepperoni, mozzarella cheese, smoked bacon rashers, ground beef, bbq sauce base, oven roasted chicken",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_BELLISIMO_MEATS_44",
+                "ingredients": [
+                    "pepperoni",
+                    "mozzarella cheese",
+                    "smoked bacon rashers",
+                    "ground beef",
+                    "bbq sauce base",
+                    "oven roasted chicken"
+                ],
+                "name": "Bellisimo Meats",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "hot pepperoni, mozzarella cheese, virginian ham, marinated lamb yiros, chorizo sausage, smoked bacon rashers, ground beef, bbq sauce base, oven roasted chicken",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_SEVEN_MEGA_MEATS_45",
+                "ingredients": [
+                    "hot pepperoni",
+                    "mozzarella cheese",
+                    "virginian ham",
+                    "marinated lamb yiros",
+                    "chorizo sausage",
+                    "smoked bacon rashers",
+                    "ground beef",
+                    "bbq sauce base",
+                    "oven roasted chicken"
+                ],
+                "name": "Seven Mega Meats",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "fresh tomato, onion, mozzarella cheese, marinated lamb yiros, homemade garlic sauce, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_LAMB_YIROS_PIZZA_46",
+                "ingredients": [
+                    "fresh tomato",
+                    "onion",
+                    "mozzarella cheese",
+                    "marinated lamb yiros",
+                    "homemade garlic sauce",
+                    "tomato base"
+                ],
+                "name": "Lamb Yiros Pizza",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "fresh tomato, onion, mozzarella cheese, marinated chicken yiros, homemade garlic sauce, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_CHICKEN_YIROS_PIZZA_47",
+                "ingredients": [
+                    "fresh tomato",
+                    "onion",
+                    "mozzarella cheese",
+                    "marinated chicken yiros",
+                    "homemade garlic sauce",
+                    "tomato base"
+                ],
+                "name": "Chicken Yiros Pizza",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "fresh tomato, onion, mozzarella cheese, marinated chicken yiros, marinated lamb yiros, homemade garlic sauce, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_COMBINATION_YIROS_PIZZA_48",
+                "ingredients": [
+                    "fresh tomato",
+                    "onion",
+                    "mozzarella cheese",
+                    "marinated chicken yiros",
+                    "marinated lamb yiros",
+                    "homemade garlic sauce",
+                    "tomato base"
+                ],
+                "name": "Combination Yiros Pizza",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "onion, garlic, oregano, mozzarella cheese, rosemary, baby spinach, marinated lamb, mint yoghurt, oven roasted pumpkin, spicy tomato sauce base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_MEDITERRANEAN_49",
+                "ingredients": [
+                    "onion",
+                    "garlic",
+                    "oregano",
+                    "mozzarella cheese",
+                    "rosemary",
+                    "baby spinach",
+                    "marinated lamb",
+                    "mint yoghurt",
+                    "oven roasted pumpkin",
+                    "spicy tomato sauce base"
+                ],
+                "name": "Mediterranean",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "onion, mozzarella cheese, spicy satay sauce base, fire roasted peppers, tender juicy chicken, fresh mushroom",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_SATAY_CHICKEN_50",
+                "ingredients": [
+                    "onion",
+                    "mozzarella cheese",
+                    "spicy satay sauce base",
+                    "fire roasted peppers",
+                    "tender juicy chicken",
+                    "fresh mushroom"
+                ],
+                "name": "Satay Chicken",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "pineapple, mozzarella cheese, virginian ham, roasted chicken, smoked bacon rashers, bbq sauce base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_CHICKEN_HAWAIIAN_51",
+                "ingredients": [
+                    "pineapple",
+                    "mozzarella cheese",
+                    "virginian ham",
+                    "roasted chicken",
+                    "smoked bacon rashers",
+                    "bbq sauce base"
+                ],
+                "name": "Chicken Hawaiian",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "onion, mozzarella cheese, marinated lemon pepper king prawns, smoked bacon rashers, ground beef, tomato base, lemon",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_REEF__BEEF_52",
+                "ingredients": [
+                    "onion",
+                    "mozzarella cheese",
+                    "marinated lemon pepper king prawns",
+                    "smoked bacon rashers",
+                    "ground beef",
+                    "tomato base",
+                    "lemon"
+                ],
+                "name": "Reef & Beef",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "bocconcini cheese, fresh tomato, garlic, kalamata olives, mozzarella cheese, fresh rocket, prosciutto, shaved parmesan cheese, tomato base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_THE_ROCKET_53",
+                "ingredients": [
+                    "bocconcini cheese",
+                    "fresh tomato",
+                    "garlic",
+                    "kalamata olives",
+                    "mozzarella cheese",
+                    "fresh rocket",
+                    "prosciutto",
+                    "shaved parmesan cheese",
+                    "tomato base"
+                ],
+                "name": "The Rocket",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "garlic, pepperoni, kalamata olives, mozzarella cheese, sundried tomato, chorizo sausage, shaved parmesan cheese, fire roasted peppers, spicy tomato sauce base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_THE_DON_54",
+                "ingredients": [
+                    "garlic",
+                    "pepperoni",
+                    "kalamata olives",
+                    "mozzarella cheese",
+                    "sundried tomato",
+                    "chorizo sausage",
+                    "shaved parmesan cheese",
+                    "fire roasted peppers",
+                    "spicy tomato sauce base"
+                ],
+                "name": "The Don",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "capsicum, onion, diced bacon, garlic, mozzarella cheese, chorizo sausage, spicy tomato sauce base, fresh mushroom",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_THE_GODFATHER_55",
+                "ingredients": [
+                    "capsicum",
+                    "onion",
+                    "diced bacon",
+                    "garlic",
+                    "mozzarella cheese",
+                    "chorizo sausage",
+                    "spicy tomato sauce base",
+                    "fresh mushroom"
+                ],
+                "name": "The Godfather",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "garlic, pepperoni, kalamata olives, mozzarella cheese, sundried tomato, roasted chicken, fire roasted peppers, spicy tomato sauce base, fresh mushroom",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_THE_MONA_LISA_56",
+                "ingredients": [
+                    "garlic",
+                    "pepperoni",
+                    "kalamata olives",
+                    "mozzarella cheese",
+                    "sundried tomato",
+                    "roasted chicken",
+                    "fire roasted peppers",
+                    "spicy tomato sauce base",
+                    "fresh mushroom"
+                ],
+                "name": "The Mona Lisa",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "mozzarella cheese, king size prawns, fresh tomato, onion, lemon sauce",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_CREAMY_PRAWN_DELIGHT_57",
+                "ingredients": [
+                    "mozzarella cheese",
+                    "king size prawns",
+                    "fresh tomato",
+                    "onion",
+                    "lemon sauce"
+                ],
+                "name": "Creamy Prawn Delight",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "onion, feta cheese, kalamata olives, mozzarella cheese, oven roasted pumpkin, fire roasted peppers, swirl of mint yoghurt, basil pesto base",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_VEGETARIAN_DELIGHT_58",
+                "ingredients": [
+                    "onion",
+                    "feta cheese",
+                    "kalamata olives",
+                    "mozzarella cheese",
+                    "oven roasted pumpkin",
+                    "fire roasted peppers",
+                    "swirl of mint yoghurt",
+                    "basil pesto base"
+                ],
+                "name": "Vegetarian Delight",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": true,
+                "allow_half": true,
+                "category_ref": "GOURMET_PIZZAS",
+                "description": "fresh tomato, sour cream, mozzarella cheese, jalapeno peppers, ground beef, corn chips, tomato base, guacamole",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_NACHO_59",
+                "ingredients": [
+                    "fresh tomato",
+                    "sour cream",
+                    "mozzarella cheese",
+                    "jalapeno peppers",
+                    "ground beef",
+                    "corn chips",
+                    "tomato base",
+                    "guacamole"
+                ],
+                "name": "Nacho",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Regular",
+                        "price": 19.5
+                    },
+                    {
+                        "name": "Large",
+                        "price": 24.5
+                    },
+                    {
+                        "name": "Family",
+                        "price": 31.5
+                    },
+                    {
+                        "name": "Party",
+                        "price": 39.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "MINI_PIZZAS",
+                "description": "Tomato Sauce & Cheese",
+                "enabled": true,
+                "excluded_modifier_items": [
+                    "bocconcini cheese",
+                    "feta cheese",
+                    "parmesan cheese",
+                    "aioli",
+                    "bbq sauce",
+                    "garlic sauce",
+                    "mint yoghurt",
+                    "sour cream"
+                ],
+                "gf_size_rule": "large_only",
+                "id": "p_MINI_CHEESE_60",
+                "ingredients": [
+                    "Tomato Sauce",
+                    "Cheese"
+                ],
+                "kitchen_alert": false,
+                "kitchen_alert_msg": "",
+                "name": "MINI Cheese",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_SAUCE"
+                ],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "Mini",
+                        "price": 9.9
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 9.9
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "MINI_PIZZAS",
+                "description": "Garlic, Oregano, Mozzarella Cheese, Fresh Tomato On A Tomato Base.",
+                "enabled": true,
+                "excluded_modifier_items": [
+                    "bocconcini cheese",
+                    "feta cheese",
+                    "parmesan cheese",
+                    "aioli",
+                    "bbq sauce",
+                    "garlic sauce",
+                    "mint yoghurt",
+                    "sour cream",
+                    "fresh basil",
+                    "hot chilli flakes",
+                    "lemon pepper"
+                ],
+                "gf_size_rule": "large_only",
+                "id": "p_MINI_MARGHERITA_61",
+                "ingredients": [
+                    "Garlic",
+                    "Oregano",
+                    "Mozzarella Cheese",
+                    "Fresh Tomato On A Tomato Base."
+                ],
+                "kitchen_alert": false,
+                "kitchen_alert_msg": "",
+                "name": "MINI Margherita",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS"
+                ],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "Mini",
+                        "price": 9.9
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 9.9
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "MINI_PIZZAS",
+                "description": "Double Mozzarella Cheese, Ham On A Tomato Base",
+                "enabled": true,
+                "excluded_modifier_items": [
+                    "bocconcini cheese",
+                    "feta cheese",
+                    "parmesan cheese",
+                    "bacon",
+                    "bacon rashers",
+                    "beef",
+                    "chicken",
+                    "chorizo sausage",
+                    "lamb yiros",
+                    "pepperoni",
+                    "prosciutto",
+                    "salami",
+                    "virginian ham",
+                    "aioli",
+                    "bbq sauce",
+                    "garlic sauce",
+                    "mint yoghurt",
+                    "sour cream"
+                ],
+                "gf_size_rule": "large_only",
+                "id": "p_MINI_AUSTRALIAN_62",
+                "ingredients": [
+                    "Mozzarella Cheese",
+                    "Ham",
+                    "Tomato Base"
+                ],
+                "kitchen_alert": false,
+                "kitchen_alert_msg": "",
+                "name": "MINI Australian",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SAUCE"
+                ],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "Mini",
+                        "price": 9.9
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 9.9
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "MINI_PIZZAS",
+                "description": "Mozzarella Cheese, Ham, Pineapple On a Tomato Base",
+                "enabled": true,
+                "excluded_modifier_items": [
+                    "bocconcini cheese",
+                    "feta cheese",
+                    "parmesan cheese",
+                    "bacon",
+                    "bacon rashers",
+                    "beef",
+                    "chicken",
+                    "chorizo sausage",
+                    "lamb yiros",
+                    "pepperoni",
+                    "prosciutto",
+                    "salami",
+                    "virginian ham",
+                    "capsicum",
+                    "fresh mushroom",
+                    "fresh tomato",
+                    "jalapeno peppers",
+                    "olives",
+                    "onion",
+                    "potato wedges",
+                    "pumpkin",
+                    "roast capsicum",
+                    "rocket",
+                    "semi-dried tomato",
+                    "spinach",
+                    "aioli",
+                    "bbq sauce",
+                    "garlic sauce",
+                    "mint yoghurt",
+                    "sour cream"
+                ],
+                "gf_size_rule": "large_only",
+                "id": "p_MINI_HAM__PINEAPPLE_63",
+                "ingredients": [
+                    "Mozzarella Cheese",
+                    "Ham",
+                    "Pineapple",
+                    "Tomato Base"
+                ],
+                "kitchen_alert": false,
+                "kitchen_alert_msg": "",
+                "name": "MINI Ham & Pineapple",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "Mini",
+                        "price": 9.9
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 9.9
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "MINI_PIZZAS",
+                "description": "Mozzarella Cheese, Ham, Salami, Bacon On A Tomato Base",
+                "enabled": true,
+                "excluded_modifier_items": [
+                    "bocconcini cheese",
+                    "feta cheese",
+                    "parmesan cheese",
+                    "bacon rashers",
+                    "beef",
+                    "chicken",
+                    "chorizo sausage",
+                    "lamb yiros",
+                    "pepperoni",
+                    "prosciutto",
+                    "virginian ham",
+                    "aioli",
+                    "bbq sauce",
+                    "garlic sauce",
+                    "mint yoghurt",
+                    "sour cream"
+                ],
+                "gf_size_rule": "large_only",
+                "id": "p_MINI_MEATLOVERS_64",
+                "ingredients": [
+                    "Mozzarella Cheese",
+                    "Ham",
+                    "Salami",
+                    "Bacon",
+                    "Tomato Base"
+                ],
+                "kitchen_alert": false,
+                "kitchen_alert_msg": "",
+                "name": "MINI Meatlovers",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SAUCE"
+                ],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "Mini",
+                        "price": 9.9
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 9.9
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "MINI_PIZZAS",
+                "description": "Mozzarella Cheese, Pineapple, Roasted Chicken on a Tomato Base",
+                "enabled": true,
+                "excluded_modifier_items": [
+                    "bocconcini cheese",
+                    "feta cheese",
+                    "parmesan cheese",
+                    "bacon rashers",
+                    "beef",
+                    "chorizo sausage",
+                    "ham",
+                    "lamb yiros",
+                    "pepperoni",
+                    "prosciutto",
+                    "salami",
+                    "virginian ham",
+                    "aioli",
+                    "bbq sauce",
+                    "garlic sauce",
+                    "mint yoghurt",
+                    "sour cream"
+                ],
+                "gf_size_rule": "large_only",
+                "id": "p_MINI_CHICKEN__PINEAPPLE_65",
+                "ingredients": [
+                    "Mozzarella Cheese",
+                    "Pineapple",
+                    "Roasted Chicken",
+                    "Tomato Base"
+                ],
+                "kitchen_alert": false,
+                "kitchen_alert_msg": "",
+                "name": "MINI Chicken & Pineapple",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SAUCE"
+                ],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "Mini",
+                        "price": 9.9
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 9.9
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "MINI_PIZZAS",
+                "description": "Mozzarella Cheese, Bacon, Ground Beef Topped With A Swirl Of Aioli On A BBQ Sauce Base",
+                "enabled": true,
+                "excluded_modifier_items": [
+                    "bocconcini cheese",
+                    "feta cheese",
+                    "parmesan cheese",
+                    "bacon rashers",
+                    "chicken",
+                    "chorizo sausage",
+                    "ham",
+                    "lamb yiros",
+                    "pepperoni",
+                    "prosciutto",
+                    "salami",
+                    "virginian ham",
+                    "garlic sauce",
+                    "mint yoghurt",
+                    "sour cream",
+                    "tomato base"
+                ],
+                "gf_size_rule": "large_only",
+                "id": "p_MINI_DOUBLE_BURGER_BITE_66",
+                "ingredients": [
+                    "Mozzarella Cheese",
+                    "Bacon",
+                    "Ground Beef",
+                    "Aioli",
+                    "BBQ Sauce Base"
+                ],
+                "kitchen_alert": false,
+                "kitchen_alert_msg": "",
+                "name": "MINI Double Burger Bite",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SAUCE"
+                ],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "Mini",
+                        "price": 9.9
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 9.9
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "MINI_PIZZAS",
+                "description": "Mozzarella Cheese, Onion, Capsicum, Fresh Mushroom & Pineapple On A Tomato Base",
+                "enabled": true,
+                "excluded_modifier_items": [
+                    "bocconcini cheese",
+                    "feta cheese",
+                    "parmesan cheese",
+                    "fresh tomato",
+                    "jalapeno peppers",
+                    "olives",
+                    "potato wedges",
+                    "pumpkin",
+                    "roast capsicum",
+                    "rocket",
+                    "semi-dried tomato",
+                    "spinach",
+                    "aioli",
+                    "bbq sauce",
+                    "garlic sauce",
+                    "mint yoghurt",
+                    "sour cream"
+                ],
+                "gf_size_rule": "large_only",
+                "id": "p_MINI_VEGETARIAN_67",
+                "ingredients": [
+                    "Mozzarella Cheese",
+                    "Onion",
+                    "Capsicum",
+                    "Fresh Mushroom",
+                    "Pineapple",
+                    "Tomato Base"
+                ],
+                "kitchen_alert": false,
+                "kitchen_alert_msg": "",
+                "name": "MINI Vegetarian",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE"
+                ],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "Mini",
+                        "price": 9.9
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 9.9
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "CALZONE",
+                "description": "salami, anchovies, tomato base, olives, mozzarella cheese, ham, fresh mushroom",
+                "enabled": true,
+                "id": "p_CALZONE_SPECIAL_68",
+                "ingredients": [
+                    "salami",
+                    "anchovies",
+                    "tomato base",
+                    "olives",
+                    "mozzarella cheese",
+                    "ham",
+                    "fresh mushroom"
+                ],
+                "name": "Calzone Special",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS"
+                ],
+                "skus": [
+                    {
+                        "name": "Large",
+                        "price": 24.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "CALZONE",
+                "description": "salami, tomato base, pepperoni, bacon, ham",
+                "enabled": true,
+                "id": "p_CALZONE_MEATLOVERS_69",
+                "ingredients": [
+                    "salami",
+                    "tomato base",
+                    "pepperoni",
+                    "bacon",
+                    "ham"
+                ],
+                "name": "Calzone Meatlovers",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Large",
+                        "price": 24.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "CALZONE",
+                "description": "hot pepperoni, pineapple, spicy tomato base, bacon, kalamata olives, mozzarella cheese, fresh mushroom",
+                "enabled": true,
+                "id": "p_CALZONE_CHEFS_SPECIAL_70",
+                "ingredients": [
+                    "hot pepperoni",
+                    "pineapple",
+                    "spicy tomato base",
+                    "bacon",
+                    "kalamata olives",
+                    "mozzarella cheese",
+                    "fresh mushroom"
+                ],
+                "name": "Calzone Chefs Special",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Large",
+                        "price": 24.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "CALZONE",
+                "description": "pineapple, tomato base, mozzarella cheese, ham",
+                "enabled": true,
+                "id": "p_CALZONE_HAM__PINEAPPLE_71",
+                "ingredients": [
+                    "pineapple",
+                    "tomato base",
+                    "mozzarella cheese",
+                    "ham"
+                ],
+                "name": "Calzone Ham & Pineapple",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Large",
+                        "price": 24.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "CALZONE",
+                "description": "capsicum, onion, chicken, bacon, mozzarella cheese, bbq sauce",
+                "enabled": true,
+                "id": "p_CALZONE_BBQ_ROAST_CHICKEN_72",
+                "ingredients": [
+                    "capsicum",
+                    "onion",
+                    "chicken",
+                    "bacon",
+                    "mozzarella cheese",
+                    "bbq sauce"
+                ],
+                "name": "Calzone Bbq Roast Chicken",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Large",
+                        "price": 24.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "CALZONE",
+                "description": "bocconcini cheese, parmesan cheese, tomato base, garlic, feta cheese, oregano, mozzarella cheese",
+                "enabled": true,
+                "id": "p_CALZONE_QUATTRO_FORMAGGI_73",
+                "ingredients": [
+                    "bocconcini cheese",
+                    "parmesan cheese",
+                    "tomato base",
+                    "garlic",
+                    "feta cheese",
+                    "oregano",
+                    "mozzarella cheese"
+                ],
+                "name": "Calzone Quattro Formaggi",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "Large",
+                        "price": 24.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "CALZONE",
+                "description": "pineapple, capsicum, onion, tomato base, olives, mozzarella cheese, fresh mushroom",
+                "enabled": true,
+                "id": "p_CALZONE_VEGETARIAN_74",
+                "ingredients": [
+                    "pineapple",
+                    "capsicum",
+                    "onion",
+                    "tomato base",
+                    "olives",
+                    "mozzarella cheese",
+                    "fresh mushroom"
+                ],
+                "name": "Calzone Vegetarian",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS"
+                ],
+                "skus": [
+                    {
+                        "name": "Large",
+                        "price": 24.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "BREADS",
+                "description": "bread topped with garlic & olive oil or butter & may include additional herbs, such as oregano or chives",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_GARLIC_BREAD_75",
+                "ingredients": [
+                    "bread",
+                    "garlic",
+                    "olive oil",
+                    "butter",
+                    "herbs"
+                ],
+                "name": "Garlic Bread",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 5
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "BREADS",
+                "description": "bread topped with cheese garlic & olive oil or butter & may include additional herbs, such as oregano or chives",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_CHEESY_GARLIC_BREAD_76",
+                "ingredients": [],
+                "kitchen_alert": true,
+                "kitchen_alert_msg": "PREPARE !!!",
+                "name": "Cheesy Garlic Bread",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "No Size",
+                        "price": 6.5
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 6.5
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "BREADS",
+                "description": "",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_CHEESYLISCIOUS_MOUSE_TRAP_77",
+                "ingredients": [],
+                "name": "Cheesyliscious Mouse Trap",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 8.2
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "BREADS",
+                "description": "beef, bacon topped with aioli",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_BEEF__BACON_AIOLI_MOUSSE_TRAP_78",
+                "ingredients": [
+                    "beef",
+                    "bacon topped with aioli"
+                ],
+                "name": "Beef & Bacon Aioli Mousse Trap",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 9.8
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "BREADS",
+                "description": "garlic bread loaded with cheese bacon aioli shaved parmesan cheese & parsley on top",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_LOADED_GARLIC_BREAD_79",
+                "ingredients": [
+                    "garlic bread",
+                    "cheese",
+                    "bacon",
+                    "aioli",
+                    "shaved parmesan cheese",
+                    "parsley"
+                ],
+                "kitchen_alert": true,
+                "kitchen_alert_msg": "PREPARE !!",
+                "name": "Loaded Garlic Bread",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "No Size",
+                        "price": 11.9
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 11.9
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "BAKED_POTATO",
+                "description": "baked potato, garlic butter, mozzarella cheese, virginian ham, pineapple, sour cream",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_TROPICAL_BAKED_POTATO_80",
+                "ingredients": [
+                    "baked potato",
+                    "garlic butter",
+                    "mozzarella cheese",
+                    "virginian ham",
+                    "pineapple",
+                    "sour cream"
+                ],
+                "kitchen_alert": true,
+                "kitchen_alert_msg": "Dont fuck around with this one ",
+                "name": "Tropical Baked Potato",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "No Size",
+                        "price": 19.9
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 19.9
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "BAKED_POTATO",
+                "description": "baked potato, garlic butter, mozzarella cheese, diced bacon, bolognese sauce, sour cream",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_BOLOGNESE_BAKED_POTATO_81",
+                "ingredients": [
+                    "baked potato",
+                    "garlic butter",
+                    "mozzarella cheese",
+                    "diced bacon",
+                    "bolognese sauce",
+                    "sour cream"
+                ],
+                "kitchen_alert": true,
+                "kitchen_alert_msg": "Dont fuck around with this one ",
+                "name": "Bolognese Baked Potato",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "No Size",
+                        "price": 19.9
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 19.9
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "BAKED_POTATO",
+                "description": "baked potato, garlic butter, mozzarella cheese, beef mince, diced bacon, fresh tomato, bbq sauce, aioli, sour cream",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_BACON_DELUXE_BAKED_POTATO_82",
+                "ingredients": [
+                    "baked potato",
+                    "garlic butter",
+                    "mozzarella cheese",
+                    "beef mince",
+                    "diced bacon",
+                    "fresh tomato",
+                    "bbq sauce",
+                    "aioli",
+                    "sour cream"
+                ],
+                "kitchen_alert": true,
+                "kitchen_alert_msg": "Dont fuck around with this one ",
+                "name": "Bacon Deluxe Baked Potato",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "No Size",
+                        "price": 19.9
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 19.9
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "BAKED_POTATO",
+                "description": "baked potato, garlic butter, mozzarella cheese, diced bacon, coleslaw, beetroot, sour cream",
+                "enabled": true,
+                "gf_size_rule": "large_only",
+                "id": "p_OUR_SIGNATURE_BAKED_POTATO_83",
+                "ingredients": [
+                    "baked potato",
+                    "garlic butter",
+                    "mozzarella cheese",
+                    "diced bacon",
+                    "coleslaw",
+                    "beetroot",
+                    "sour cream"
+                ],
+                "kitchen_alert": true,
+                "kitchen_alert_msg": "Dont fuck around with this one ",
+                "name": "Our Signature Baked Potato",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "No Size",
+                        "price": 19.9
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 19.9
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "SIDES",
+                "description": "bbq sauce, plum sauce",
+                "enabled": true,
+                "id": "p_CHICKEN_WINGETTES_84",
+                "ingredients": [
+                    "bbq sauce",
+                    "plum sauce"
+                ],
+                "kitchen_alert": true,
+                "kitchen_alert_msg": "Put in oven Now !!",
+                "name": "Chicken Wingettes",
+                "option_list_refs": [],
+                "sauceGroupRef": "RIBS_SAUCE",
+                "sauceRequired": true,
+                "skus": [
+                    {
+                        "name": "1 Dozen",
+                        "price": 16.5
+                    },
+                    {
+                        "name": "2 Dozen",
+                        "price": 29.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "SIDES",
+                "description": "",
+                "enabled": true,
+                "id": "p_CHICKEN_NUGGETS_85",
+                "ingredients": [],
+                "name": "Chicken Nuggets",
+                "skus": [
+                    {
+                        "name": "5 Pieces",
+                        "price": 5.5
+                    },
+                    {
+                        "name": "8 Pieces",
+                        "price": 7.5
+                    },
+                    {
+                        "name": "12 Pieces",
+                        "price": 11.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "SIDES",
+                "description": "bbq sauce, plum sauce",
+                "enabled": true,
+                "id": "p_RIBS_86",
+                "ingredients": [
+                    "bbq sauce",
+                    "plum sauce"
+                ],
+                "kitchen_alert": true,
+                "kitchen_alert_msg": "Get Them Ready !!",
+                "name": "Ribs",
+                "option_list_refs": [],
+                "sauceGroupRef": "RIBS_SAUCE",
+                "sauceRequired": true,
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "1 Dozen",
+                        "price": 27.45
+                    },
+                    {
+                        "cost": 0,
+                        "name": "2 Dozen",
+                        "price": 49.5
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 27.45
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "SIDES",
+                "description": "garlic butter, cheese, bacon, sour cream, shallots",
+                "enabled": true,
+                "id": "p_POTATO_SKINS_87",
+                "ingredients": [
+                    "garlic butter",
+                    "cheese",
+                    "bacon",
+                    "sour cream",
+                    "shallots"
+                ],
+                "kitchen_alert": true,
+                "kitchen_alert_msg": "Get Them Ready !!",
+                "name": "Potato Skins",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SEAFOOD",
+                    "EXTRAS_VEGGIES",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS",
+                    "OTHERS"
+                ],
+                "skus": [
+                    {
+                        "name": "4-pack",
+                        "price": 12
+                    },
+                    {
+                        "name": "6-pack",
+                        "price": 17.4
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "SIDES",
+                "description": "sour cream, sweet chilli sauce",
+                "enabled": true,
+                "id": "p_WEDGES_88",
+                "ingredients": [
+                    "sour cream",
+                    "sweet chilli sauce"
+                ],
+                "name": "Wedges",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 12.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DRINKS",
+                "description": "",
+                "enabled": true,
+                "id": "p_COKE_375ML_89",
+                "ingredients": [],
+                "name": "Coke (375ml)",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 3.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DRINKS",
+                "description": "",
+                "enabled": true,
+                "id": "p_COKE_ZERO_375ML_90",
+                "name": "Coke Zero (375ml)",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 3.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DRINKS",
+                "description": "",
+                "enabled": true,
+                "id": "p_PEPSI_125L_91",
+                "name": "Pepsi (1.25L)",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 6
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DRINKS",
+                "description": "",
+                "enabled": true,
+                "id": "p_PEPSI_MAX_125L_92",
+                "name": "Pepsi Max (1.25L)",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 6
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DRINKS",
+                "description": "",
+                "enabled": true,
+                "id": "p_SUNKIST_125L_93",
+                "name": "Sunkist (1.25L)",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 6
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DRINKS",
+                "description": "",
+                "enabled": true,
+                "id": "p_7UP_125L_94",
+                "name": "7UP (1.25L)",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 6
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DRINKS",
+                "description": "",
+                "enabled": true,
+                "id": "p_SOLO_125L_95",
+                "name": "Solo (1.25L)",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 6
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DRINKS",
+                "description": "",
+                "enabled": true,
+                "id": "p_WATER_600ML_96",
+                "name": "Water (600ml)",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 2.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DRINKS",
+                "description": "",
+                "enabled": true,
+                "fixedUpgradeCost": 4,
+                "id": "p_COKE_2L_97",
+                "ingredients": [],
+                "kitchen_alert": false,
+                "kitchen_alert_msg": "",
+                "name": "Coke (2L)",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "No Size",
+                        "price": 7.6
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 7.6
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DRINKS",
+                "description": "",
+                "enabled": true,
+                "id": "p_APPLE_JUICE_250ML_98",
+                "name": "Apple Juice (250ml)",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 2.8
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DRINKS",
+                "description": "",
+                "enabled": true,
+                "id": "p_ORANGE_JUICE_250ML_99",
+                "name": "Orange Juice (250ml)",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 2.8
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DRINKS",
+                "description": "",
+                "enabled": true,
+                "id": "p_TROPICAL_JUICE_250ML_100",
+                "name": "Tropical Juice (250ml)",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 2.8
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DRINKS",
+                "description": "",
+                "enabled": true,
+                "id": "p_LIPTON_PEACH_ICE_TEA_101",
+                "name": "Lipton Peach Ice Tea",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 4.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DESSERTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_TIRAMISU_102",
+                "name": "Tiramisu",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 14.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DESSERTS",
+                "description": "Delicious Banoffee Pie with crunchy crust, caramel toffee, banana slices, and whipped cream topped with chocolate shavings",
+                "enabled": true,
+                "id": "p_BANOFFEE_PIE_103",
+                "ingredients": [],
+                "name": "Banoffee Pie",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 14.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DESSERTS",
+                "description": "Rich and creamy chocolate mousse",
+                "enabled": true,
+                "id": "p_CHOCOLATE_MOUSSE_104",
+                "ingredients": [],
+                "name": "Chocolate Mousse",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 12.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "DESSERTS",
+                "description": "Soft, Stewed apples and covered with a crunchy, crumbly topping",
+                "enabled": true,
+                "id": "p_HOME_MADE_APPLE_CRUMBLE_105",
+                "ingredients": [],
+                "name": "Home Made Apple Crumble",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 14.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "PASTA",
+                "description": "Homemade Spaghetti served with Bolognese Sauce",
+                "enabled": true,
+                "id": "p_HOMEMADE_SPAGHETTI_BOLOGNESE_106",
+                "ingredients": [],
+                "kitchen_alert": true,
+                "kitchen_alert_msg": "PREPARE !!",
+                "name": "Homemade Spaghetti Bolognese",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "Entree",
+                        "price": 12.5
+                    },
+                    {
+                        "cost": 0,
+                        "name": "Main",
+                        "price": 15.5
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 12.5
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "PASTA",
+                "description": "homemade lasagna served with bolognese sauce",
+                "enabled": true,
+                "id": "p_HOMEMADE_LASAGNA_BOLOGNESE_107",
+                "ingredients": [],
+                "kitchen_alert": true,
+                "kitchen_alert_msg": "PREPARE !!",
+                "name": "Homemade Lasagna Bolognese",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "No Size",
+                        "price": 15.5
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 15.5
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_AIOLI_SAUCE_108",
+                "name": "Tub of Aioli Sauce",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 1.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_ANCHOVIES_109",
+                "name": "Tub of Anchovies",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 4.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_BARBECUE_SAUCE_110",
+                "name": "Tub of Barbecue Sauce",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 1.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_BASIL_PESTO_111",
+                "name": "Tub of Basil Pesto",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 2.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_GARLIC_SAUCE_112",
+                "name": "Tub of Garlic Sauce",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 2.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_GRATED_PARMESAN_CHEESE_113",
+                "name": "Tub of Grated Parmesan Cheese",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 3.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_GUACAMOLE_114",
+                "name": "Tub of Guacamole",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 2.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_JALAPEO_PEPPERS_115",
+                "name": "Tub of Jalape\u00f1o Peppers",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 2.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_MINT_YOGHURT_116",
+                "name": "Tub of Mint Yoghurt",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 2.5
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_SEMIDRIED_TOMATOES_117",
+                "name": "Tub of Semidried Tomatoes",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 4.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_SHAVED_PARMESAN_CHEESE_118",
+                "name": "Tub of Shaved Parmesan Cheese",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 3.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_SOUR_CREAM_119",
+                "name": "Tub of Sour Cream",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 1.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_SWEET_CHILLI_SAUCE_120",
+                "name": "Tub of Sweet Chilli Sauce",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 1.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "TUBS_OF_SAUCES__CONDIMENTS",
+                "description": "",
+                "enabled": true,
+                "id": "p_TOMATO_SAUCE_121",
+                "name": "Tub of Tomato Sauce",
+                "skus": [
+                    {
+                        "name": "No Size",
+                        "price": 1.9
+                    }
+                ]
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "BREADS",
+                "description": "bread topped with garlic & olive oil or butter & may include additional herbs, such as oregano or chives",
+                "enabled": true,
+                "id": "prod_1771932157624",
+                "image": "free.jpg",
+                "ingredients": [],
+                "kitchen_alert": false,
+                "kitchen_alert_msg": "",
+                "name": "Free Garlic Bread",
+                "option_list_refs": [],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "No Size",
+                        "price": 0
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 0
+            },
+            {
+                "allow_gf": false,
+                "allow_half": false,
+                "category_ref": "MINI_PIZZAS",
+                "description": "garlic, oregano, mozzarella cheese, tomato base, double pepperoni",
+                "enabled": true,
+                "excluded_modifier_items": [
+                    "bocconcini cheese",
+                    "feta cheese",
+                    "parmesan cheese",
+                    "bacon",
+                    "bacon rashers",
+                    "beef",
+                    "chicken",
+                    "chorizo sausage",
+                    "ham",
+                    "lamb yiros",
+                    "prosciutto",
+                    "salami",
+                    "virginian ham",
+                    "aioli",
+                    "bbq sauce",
+                    "garlic sauce",
+                    "mint yoghurt",
+                    "sour cream",
+                    "fresh basil",
+                    "garlic granules",
+                    "hot chilli flakes",
+                    "lemon pepper"
+                ],
+                "id": "prod_1772172430646",
+                "image": "cheesy-pepperoni-mini.jpg",
+                "ingredients": [
+                    "garlic, oregano",
+                    "mozzarella cheese",
+                    "tomato base",
+                    "double pepperoni"
+                ],
+                "kitchen_alert": false,
+                "kitchen_alert_msg": "",
+                "name": "MINI Cheesy Pepperoni",
+                "option_list_refs": [
+                    "EXTRAS_CHEESE",
+                    "EXTRAS_MEAT",
+                    "EXTRAS_SAUCE",
+                    "EXTRAS_SPICES__HERBS"
+                ],
+                "skus": [
+                    {
+                        "cost": 0,
+                        "name": "Mini",
+                        "price": 9.5
+                    }
+                ],
+                "web_enabled": true,
+                "web_price": 0
+            }
+        ]
+    }
+}

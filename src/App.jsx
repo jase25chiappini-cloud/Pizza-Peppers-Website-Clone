@@ -11696,6 +11696,7 @@ function LoginModal({ isOpen, tab = "providers", onClose }) {
     loading: authLoading,
   } = useAuth();
   const firebaseDisabled = !FB_READY || !firebaseAuth;
+  const navigate = useNavigate();
 
   const initialTab = /** @type {LoginTab} */ (
     tab === "phone" ? "phone" : "providers"
@@ -12046,7 +12047,20 @@ function LoginModal({ isOpen, tab = "providers", onClose }) {
           className="modal-header"
           style={{ borderBottom: "none", paddingBottom: 0 }}
         >
-          <div className="pp-login-brand">
+          <button
+            type="button"
+            className="pp-login-brand pp-login-brand--home"
+            onClick={() => {
+              try {
+                handleClose?.();
+              } catch {}
+              try {
+                navigate("/", { replace: false });
+              } catch {}
+            }}
+            aria-label="Go to home"
+            title="Go to home"
+          >
             <img
               className="pp-login-brand__logo"
               src="/pizza-peppers-logo.jpg"
@@ -12056,7 +12070,7 @@ function LoginModal({ isOpen, tab = "providers", onClose }) {
               <div className="pp-login-title">Sign in</div>
               <div className="pp-login-subtitle">Quick checkout & saved details</div>
             </div>
-          </div>
+          </button>
           <button
             type="button"
             className="pp-modal-close"
@@ -15208,21 +15222,12 @@ function Home({
       setHideMealDealResumeBanner(false);
       return;
     }
-    try {
-      const k = `pp_hide_mealdeal_resume_${mealDealDraftKey}`;
-      setHideMealDealResumeBanner(window.localStorage.getItem(k) === "1");
-    } catch {
-      setHideMealDealResumeBanner(false);
-    }
-  }, [mealDealDraft, mealDealDraftKey]);
+    setHideMealDealResumeBanner(false);
+  }, [mealDealDraftKey, mealDealDraft]);
 
   const dismissMealDealResumeBanner = React.useCallback(() => {
     setHideMealDealResumeBanner(true);
-    try {
-      const k = `pp_hide_mealdeal_resume_${mealDealDraftKey}`;
-      window.localStorage.setItem(k, "1");
-    } catch {}
-  }, [mealDealDraftKey]);
+  }, []);
 
   const [activeCategory, setActiveCategory] = useState("");
 
@@ -15285,17 +15290,18 @@ function Home({
               Resume
             </button>
 
-            {/* Dismiss banner (keeps draft saved) */}
             <button
               type="button"
-              className="pp-btn pp-btn-subtle"
-              aria-label="Close"
+              className="pp-mealdealResumeBanner__dismiss"
+              aria-label="Dismiss meal deal banner"
               title="Dismiss"
               onClick={(e) => {
                 e.stopPropagation();
                 dismissMealDealResumeBanner();
               }}
-            />
+            >
+              <span aria-hidden="true">x</span>
+            </button>
           </div>
         </div>
       )}
@@ -15759,7 +15765,6 @@ function AppLayout({ isMapsLoaded }) {
   const navigate = useNavigate();
 
   const goToMenu = React.useCallback(() => {
-    // Hard reset: close any overlays and return to the menu screen.
     setIsProfileOpen(false);
     setOrderHistoryOpen(false);
     setCartModalOpen(false);
@@ -15770,11 +15775,36 @@ function AppLayout({ isMapsLoaded }) {
 
     setRightPanelView("order");
 
-    // If user is on /login or /terms, bring them back home too.
+    const scrollHomeToTop = () => {
+      try {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      } catch {
+        try {
+          window.scrollTo(0, 0);
+        } catch {}
+      }
+    };
+
     try {
+      if (location.pathname === "/") {
+        scrollHomeToTop();
+        return;
+      }
+
       navigate("/", { replace: false });
+
+      try {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            scrollHomeToTop();
+          });
+        });
+      } catch {
+        setTimeout(scrollHomeToTop, 50);
+      }
     } catch {}
   }, [
+    location.pathname,
     navigate,
     setIsProfileOpen,
     setOrderHistoryOpen,
@@ -16564,13 +16594,55 @@ function AppLayout({ isMapsLoaded }) {
     [isMobileScreen, handleItemClickMobile, handleItemClickDesktop, addToCart],
   );
 
+  const resumeMealDealScrollPendingRef = React.useRef(false);
+
+  const scrollMainMenuToTop = React.useCallback(() => {
+    const run = () => {
+      try {
+        const mainArea = document.querySelector(".main-content-area");
+        if (mainArea) {
+          mainArea.scrollTo?.({ top: 0, left: 0, behavior: "auto" });
+          mainArea.scrollTop = 0;
+        }
+      } catch {}
+
+      try {
+        const menuContent = document.querySelector(".menu-content");
+        if (menuContent) {
+          menuContent.scrollTo?.({ top: 0, left: 0, behavior: "auto" });
+          menuContent.scrollTop = 0;
+        }
+      } catch {}
+
+      try {
+        const docScroller =
+          document.scrollingElement || document.documentElement || document.body;
+        if (docScroller) docScroller.scrollTop = 0;
+        window.scrollTo?.({ top: 0, left: 0, behavior: "auto" });
+      } catch {}
+    };
+
+    run();
+    requestAnimationFrame(run);
+    window.setTimeout(run, 60);
+  }, []);
+
   const handleResumeMealDeal = useCallback(() => {
     if (!mealDealDraft) return;
+    resumeMealDealScrollPendingRef.current = true;
     setSelectedItem(mealDealDraft);
     setCustomizingItem(null);
     setEditingIndex(null);
     setRightPanelView("order");
-  }, [mealDealDraft, setSelectedItem, setCustomizingItem, setEditingIndex, setRightPanelView]);
+    scrollMainMenuToTop();
+  }, [
+    mealDealDraft,
+    setSelectedItem,
+    setCustomizingItem,
+    setEditingIndex,
+    setRightPanelView,
+    scrollMainMenuToTop,
+  ]);
 
   const handleEditItem = (item, index) => {
     const prepared = item?.prices ? { ...item } : prepareItemForPanel(item);
@@ -16940,6 +17012,12 @@ function AppLayout({ isMapsLoaded }) {
       Array.isArray(selectedItem.bundle.slots) &&
       selectedItem.bundle.slots.length,
   );
+  React.useEffect(() => {
+    if (!resumeMealDealScrollPendingRef.current) return;
+    if (!isMealDealSelected) return;
+    scrollMainMenuToTop();
+    resumeMealDealScrollPendingRef.current = false;
+  }, [isMealDealSelected, scrollMainMenuToTop]);
   const isItemDetailPanel = Boolean(
     selectedItem && !isHalfHalfPanel && !isMealDealSelected,
   );
