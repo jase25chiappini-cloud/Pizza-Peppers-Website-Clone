@@ -1,0 +1,76 @@
+# Exported from Render on 2026-03-25T10:16:05Z
+version: "1"
+projects:
+- name: Pizza Peppers Website Clone
+  environments:
+  - name: Production
+    services:
+    - type: web
+      name: pizza-peppers-proxy-clone
+      runtime: python
+      plan: starter
+      envVars:
+      - key: POS_ALLOWED_ORIGINS
+        sync: false
+      - key: POS_API_KEY
+        sync: false
+      - key: POS_MENU_URL
+        sync: false
+      region: virginia
+      buildCommand: pip install -r requirements.txt
+      startCommand: gunicorn app:app
+      autoDeployTrigger: commit
+      rootDir: server
+    - type: web
+      name: pizza-peppers-backend-clone
+      runtime: python
+      plan: starter
+      envVars:
+      - key: POS_ALLOWED_ORIGINS
+        sync: false
+      - key: POS_ALLOW_BOOTSTRAP_IN_PROD
+        sync: false
+      - key: POS_ADMIN_SETUP_KEY
+        sync: false
+      - key: POS_BOOTSTRAP_ADMIN_PHONE
+        sync: false
+      - key: POS_DB_PATH
+        sync: false
+      - key: POS_STAFF_EMAILS
+        sync: false
+      - key: POS_ADMIN_EMAILS
+        sync: false
+      - key: POS_SECRET_KEY
+        sync: false
+      region: virginia
+      buildCommand: pip install -r requirements.txt
+      startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+      disk:
+        name: disk
+        mountPath: /var/data
+        sizeGB: 1
+      autoDeployTrigger: commit
+      rootDir: server
+    - type: web
+      name: pizza-peppers-website-clone
+      runtime: static
+      envVars:
+      - key: VITE_PP_POS_BASE_URL
+        sync: false
+      - key: VITE_PP_ORDER_INGEST_URL
+        sync: false
+      - key: VITE_PP_MENU_BASE_URL
+        sync: false
+      - key: VITE_PP_IMAGES_BASE_URL
+        sync: false
+      - key: VITE_PP_AUTH_BASE_URL
+        sync: false
+      - key: VITE_GOOGLE_MAPS_API_KEY
+        sync: false
+      buildCommand: npm ci && npm run build
+      staticPublishPath: dist
+      routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+      autoDeployTrigger: commit
